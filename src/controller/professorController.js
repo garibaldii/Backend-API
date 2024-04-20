@@ -1,80 +1,13 @@
-/*const ProfessorController = {
-    listarProfessores: async (req, res) => {
-      try {
-        const professores = await require('../models/professorModel').listarProfessores();
-        res.status(200).json(professores);
-      } catch (error) {
-        res.status(500).json({ message: 'Erro ao listar professores', error });
-      }
-    },
-  
-    obterProfessor: async (req, res) => {
-      try {
-        const { id } = req.params;
-        const professor = await require('../models/professorModel').obterProfessor(id);
-  
-        if (!professor) {
-          return res.status(404).json({ message: 'Professor não encontrado' });
-        }
-  
-        res.status(200).json(professor);
-      } catch (error) {
-        res.status(500).json({ message: 'Erro ao obter professor', error });
-      }
-    },
-  
-    criarProfessor: async (req, res) => {
-      try {
-        const professor = await require('../models/professorModel').criarProfessor(req.body);
-        res.status(201).json(professor);
-      } catch (error) {
-        res.status(500).json({ message: 'Erro ao criar professor', error });
-      }
-    },
-  
-    atualizarProfessor: async (req, res) => {
-      try {
-        const { id } = req.params;
-        const professorAtualizado = await require('../models/professorModel').atualizarProfessor(id, req.body);
-  
-        if (!professorAtualizado) {
-          return res.status(404).json({ message: 'Professor não encontrado' });
-        }
-  
-        res.status(200).json(professorAtualizado);
-      } catch (error) {
-        res.status(500).json({ message: 'Erro ao atualizar professor', error });
-      }
-    },
-  
-    deletarProfessor: async (req, res) => {
-      try {
-        const { id } = req.params;
-        await require('../models/professorModel').deletarProfessor(id);
-        res.status(204).send();
-      } catch (error) {
-        res.status(500).json({ message: 'Erro ao deletar professor', error });
-      }
-    },
-  };
-  
-  module.exports = {
-    listarProfessores,
-    obterProfessor,
-    criarProfessor,
-    atualizarProfessor,
-    deletarProfessor,
-  };*/
 const professorService = require('../services/professorService');
 
-  const create = async (req, res) => {
+const cadastrarProfessor = async (req, res) => {
   const {nome, numero_matricula, cod_ue, titulacao, referencia, lates, curso, email, observacoes} = req.body;
 
   if (!nome || !numero_matricula || !cod_ue || !titulacao || !referencia || !lates || !curso || !email) {
     res.status(400).send({message: "Todos os campos precisam ser preenchidos"})
   }
 
-  const professor = await professorService.create(req.body);
+  const professor = await professorService.cadastrarProfessorService(req.body);
   if (!professor) {
     return res.status(400).send({message: "O professor não foi cadastrado"})
   }
@@ -96,4 +29,17 @@ const professorService = require('../services/professorService');
   })
 }
 
-module.exports = { create }
+const buscarTodosProfessores = async (req, res) => {
+  const professores = await professorService.listarProfessoresService();
+
+  if (professores.length === 0) {
+    return res.statu(400).send({message: "Não há professores cadastrados"})
+  }
+
+  res.send(professores)
+}
+
+module.exports = {
+  cadastrarProfessor,
+  buscarTodosProfessores
+}

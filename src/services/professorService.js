@@ -1,8 +1,9 @@
-const Professor = require('../model/professorModel');
 const professorModel = require('../model/professorModel');
 
-const create =  (body) => Professor.create(body);
+const cadastrarProfessorService = (body) => professorModel.create(body);
+const listarProfessoresService = () => professorModel.find();
 
 module.exports = {
-    create,
+    cadastrarProfessorService,
+    listarProfessoresService,
 }

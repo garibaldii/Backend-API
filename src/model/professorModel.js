@@ -1,40 +1,3 @@
-/*const mongoose = require('mongoose');
-const professorModel = mongoose.model('Professor', professorSchema);
-
-const professorSchema = new mongoose.Schema({
-  nome: String,
-  numero_matricula: String,
-  cod_ue: String,
-  titulacao: String,
-  referencia: String,
-  lates: String,
-  curso: String,
-  email: String,
-  status: String
-});
-
-module.exports = {
-  listarProfessores: async () => {
-    return await professorModel.find().exec();
-  },
-
-  criarProfessor: async (data) => {
-    const professor = new professorModel(data);
-    return await professor.save();
-  },
-
-  obterProfessor: async (id) => {
-    return await professorModel.findById(id).exec();
-  },
-
-  atualizarProfessor: async (id, data) => {
-    return await professorModel.findByIdAndUpdate(id, data, { new: true }).exec();
-  },
-
-  deletarProfessor: async (id) => {
-    await professorModel.findByIdAndRemove(id).exec();
-  }
-};*/
 const mongoose = require('mongoose')
 
 const ProfessorSchema = new mongoose.Schema({
@@ -50,7 +13,6 @@ const ProfessorSchema = new mongoose.Schema({
   cod_ue: {
     type: String,
     required: true,
-    unique: true
   },
   titulacao: {
     type: String,
@@ -80,5 +42,4 @@ const ProfessorSchema = new mongoose.Schema({
 }) 
 
 const Professor = mongoose.model("Professor", ProfessorSchema);
-
 module.exports = Professor
