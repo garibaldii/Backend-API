@@ -27,10 +27,13 @@ const atualizarProfessorService = (
     { nome, numero_matricula, cod_ue, titulacao, referencia, lates, curso, email, observacoes }
     ); 
 
+const removeProfessorService = (numeroMatricula) => professorModel.findOneAndDelete(numeroMatricula) ;
+
 module.exports = {
     cadastrarProfessorService,
     listarProfessoresService,
     buscarProfessoresNomeService,
     buscaProfessorPorNumeroMatriculaService,
     atualizarProfessorService,
+    removeProfessorService,
 }

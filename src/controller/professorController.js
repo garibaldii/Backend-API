@@ -82,9 +82,25 @@ const atualizarProfesor = async (req, res) => {
   res.status(200).send({message: "Professor atualizado com sucesso!"})
 
 }
+
+const removeProfessor = async (req, res) => {
+  const numeroMatricula = req.params.numero_matricula;
+
+  const professorBuscado = await professorService.buscaProfessorPorNumeroMatriculaService(numeroMatricula);
+  
+  if (!professorBuscado) {
+    return res.status(404).send({message: "Não há professor com esse número de matrícula"})
+  }
+
+  const professor = await professorService.removeProfessorService(numeroMatricula);
+
+  res.status(200).send({message: "Professor removido com sucesso!"})
+}
+
 module.exports = {
   cadastrarProfessor,
   buscarTodosProfessores,
   buscarProfessoresNome,
   atualizarProfesor,
+  removeProfessor,
 }
