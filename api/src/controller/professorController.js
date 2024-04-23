@@ -1,6 +1,7 @@
 const professorService = require('../services/professorService');
 const mongoose = require('mongoose');
 
+// Cadastrar professores - post('/')
 const cadastrarProfessor = async (req, res) => {
   const {nome, numero_matricula, cod_ue, titulacao, referencia, lates, curso, email, observacoes} = req.body;
 
@@ -30,6 +31,7 @@ const cadastrarProfessor = async (req, res) => {
   })
 }
 
+//Listar todos os professores - get('/')
 const buscarTodosProfessores = async (req, res) => {
   const professores = await professorService.listarProfessoresService();
 
@@ -40,6 +42,7 @@ const buscarTodosProfessores = async (req, res) => {
   res.send(professores)
 }
 
+//Listar os professores pelo nome - get('/nome/janaina,ricardo')
 const buscarProfessoresNome = async (req, res) => {
   const nome = req.params.nome;
 
@@ -52,6 +55,7 @@ const buscarProfessoresNome = async (req, res) => {
   res.send(professores);
 }
 
+//Atualiza dados de um professor pelo numero de matricula - put('/numero_de_matricula')
 const atualizarProfesor = async (req, res) => {
   const {nome, numero_matricula, cod_ue, titulacao, referencia, lates, curso, email, observacoes} = req.body;
 
@@ -83,6 +87,7 @@ const atualizarProfesor = async (req, res) => {
 
 }
 
+//Deleta um professor da base de dados - delete('/')
 const removeProfessor = async (req, res) => {
   const numeroMatricula = req.params.numero_matricula;
 
@@ -97,10 +102,34 @@ const removeProfessor = async (req, res) => {
   res.status(200).send({message: "Professor removido com sucesso!"})
 }
 
+//Retorna o número de professores cadastrados - get('/professoresCadastrados')
+const numeroProfessores = async (req, res) => {
+
+  const numeroProfessores = await professorService.listarProfessoresService().countDocuments();
+
+  res.status(200).send({numeroProfessores})
+}
+
+//Listar os professores pelos cursos selecionados - get('/cursos/dsm,co,cdn')
+const buscarProfessorPeloCurso = async (req, res) => {
+
+  let cursos = req.params.cursos;
+  cursos = cursos.split(',')
+
+  const professores = await professorService.buscarProfessorPeloCursoService(cursos);
+
+  if(!professores || professores.length === 0) {
+    res.status(404).send("Não há professores que ministram algum dos cursos mencionados")
+  }
+
+  res.send(professores)
+}
 module.exports = {
   cadastrarProfessor,
   buscarTodosProfessores,
   buscarProfessoresNome,
   atualizarProfesor,
   removeProfessor,
+  numeroProfessores,
+  buscarProfessorPeloCurso
 }

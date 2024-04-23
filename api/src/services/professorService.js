@@ -29,6 +29,7 @@ const atualizarProfessorService = (
 
 const removeProfessorService = (numeroMatricula) => professorModel.findOneAndDelete({ numero_matricula: numeroMatricula });
 
+const buscarProfessorPeloCursoService = (cursos) => professorModel.find( {curso: {$in: cursos}} );
 
 module.exports = {
     cadastrarProfessorService,
@@ -37,4 +38,5 @@ module.exports = {
     buscaProfessorPorNumeroMatriculaService,
     atualizarProfessorService,
     removeProfessorService,
+    buscarProfessorPeloCursoService
 }

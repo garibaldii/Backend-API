@@ -1,6 +1,6 @@
 const Usuario = require('../model/usuarioModel');
 
-const criarUsuario = async (dadosUsuario) => {
+const cadastrarUsuarioService = async (dadosUsuario) => {
   try {
     const usuario = await Usuario.create(dadosUsuario);
     return usuario;
@@ -9,4 +9,9 @@ const criarUsuario = async (dadosUsuario) => {
   }
 };
 
-module.exports = { criarUsuario };
+const listarUsuariosService = () => Usuario.find();
+
+module.exports = { 
+  cadastrarUsuarioService,
+  listarUsuariosService,
+};
