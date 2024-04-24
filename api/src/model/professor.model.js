@@ -5,12 +5,12 @@ const ProfessorSchema = new mongoose.Schema({
     type:  String,
     required: true
   },
-  numero_matricula: {
+  matriculaId: {
     type: String,
     required: true,
     unique: true
   },
-  cod_ue: {
+  unidadeId: {
     type: String,
     required: true,
   },
@@ -22,12 +22,12 @@ const ProfessorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  lates: {
+  lattes: {
     type: String,
     required: true,
   },
-  curso: {
-    type: String,
+  cursos: {
+    type: Array,
     required: true,
   },
   email: {
@@ -35,11 +35,13 @@ const ProfessorSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  observacoes: {
+  status_code: {
     type: String,
-    required: false,
+  },
+  notes: {
+    type: String,
   }
 }) 
 
-const Professor = mongoose.model("Professor", ProfessorSchema);
-module.exports = Professor
+const professorModel = mongoose.model("Professor", ProfessorSchema);
+module.exports = professorModel

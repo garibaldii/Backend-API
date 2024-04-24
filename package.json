@@ -14,7 +14,7 @@
     "mvc",
     "mongodb"
   ],
-  "author": "Leon Fagundes, Erick Oliveira, Matheus Garibaldi",
+  "author": "Leon Fagundes",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

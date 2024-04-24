@@ -1,0 +1,110 @@
+const professorService = require('../services/professor.service');
+
+// Cadastra professores - post('/createProfessor')
+const createProfessor = async (req, res) => {
+  try {
+    const dadosPrfessor = {
+      ...req.infos,
+      status_code: "Ativo",
+      observacoes: ""
+    }
+
+    const professor = await professorService.createService(dadosPrfessor);
+
+    if (!professor) {
+      return res.status(400).send({message: "O professor não foi cadastrado"})
+    }
+
+    res.status(201).send({
+      message: "O professor foi cadastrado com sucesso!",
+      professor: {...dadosPrfessor}
+    })
+  } 
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+}
+
+// Busca todos os professores - get('/findAll')
+const findAll = async (req, res) => {
+  try {
+    req.professors;
+    res.send(professors)
+  }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+
+}
+
+// Busca os professores pelo nome - get('/nome/:nome')
+const findByName = async (req, res) => {
+  try {
+    const nome = req.params.nome;
+
+    const professores = await professorService.findByNameService(nome);
+
+    if (!professores) {
+      return res.status(400).send({message: "Não há professores cadastrados com esse nome"})
+    }
+
+    res.send(professores)
+  }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+}
+
+//Atualiza dados de um professor pelo numero de matricula - put('/numero_de_matricula')
+const updateProfessor = async (req, res) => {
+
+  // TROCAR O PUT POR UM PATH
+  const professor = await professorService.updateService(
+    nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes
+  );
+
+  res.status(200).send({message: "Professor atualizado com sucesso!"})
+
+}
+
+//Deleta um professor da base de dados - delete('/delete/:matriculaId')
+const deleteProfessor = async (req, res) => {
+
+  try {
+    const professor = await professorService.deleteProfessorService(req.matriculaId);
+    /* TESTAR SE O PROFESSOR EXISTE NA BASE DE DADOS
+    APÓS O DELETE COM if(!professor) E IMPORTAR O req.professor
+    DO MIDDLEWARE PARA REALIZAR ESSA VALIDAÇÃO*/
+    res.status(200).send({
+      message: "Professor removido com sucesso!"
+    })
+  }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+}
+
+// Buscar os professores pelos cursos selecionados - get('/cursos/:cursos')
+const findbyCurse = async (req, res) => {
+
+  // VALIDAR SE O CURSO EXISTE NA BASE DE DADOS NA IMPLEMENTAÇÃO DA REST CURSOS
+  let cursos = req.params.cursos;
+  cursos = cursos.split(',')
+
+  const professores = await professorService.buscarProfessorPeloCursoService(cursos);
+
+  if(!professores || professores.length === 0) {
+    res.status(404).send("Não há professores que ministram algum dos cursos mencionados")
+  }
+
+  res.send(professores)
+}
+
+module.exports = {
+  createProfessor,
+  findAll,
+  findByName,
+  updateProfessor,
+  deleteProfessor,
+  findbyCurse
+}
