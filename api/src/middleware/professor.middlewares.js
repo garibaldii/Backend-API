@@ -1,5 +1,5 @@
 const professorService = require('../services/professor.service');
-const { body, validationResult } = require('express-validator');
+//const { body, validationResult } = require('express-validator');
 
 const ValidRegisteredProfessors = async (req, res, next) => {
   
@@ -11,7 +11,7 @@ const ValidRegisteredProfessors = async (req, res, next) => {
     }
 
     req.professors = professors;
-
+    
     next()
   }
   catch (err) {

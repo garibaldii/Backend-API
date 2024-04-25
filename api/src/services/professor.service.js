@@ -12,11 +12,10 @@ const findByMatriculaIdService = (matriculaId) =>
     {matriculaId: matriculaId}
     );
 
-const updateProfessorService = (
-    nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes) => {
-    professorModel.findOneAndUpdate(
-    { matriculaId: matriculaId },
-    { nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes })
+const updateProfessorService = (infos) => {
+    return professorModel.findOneAndUpdate(
+    { matriculaId: infos.matriculaId }, infos,
+    { new: true })
 }
 
 const deleteProfessorService = (matriculaId) => professorModel.findOneAndDelete({ matriculaId: matriculaId });

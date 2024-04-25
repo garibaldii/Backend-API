@@ -3,12 +3,13 @@ const professorService = require('../services/professor.service');
 const createProfessor = async (req, res) => {
   try {
     const dadosProfessor = {
+      //corrijir para conseguir criar um professor que tenha observações
       ...req.infos,
       statusAtividade: "Ativo",
       observacoes: ""
     }
 
-    const professor = await professorService.createService(dadosProfessor);
+    const professor = await professorService.createProfessorService(dadosProfessor);
 
     if (!professor) {
       return res.status(400).send({message: "O professor não foi cadastrado"})
@@ -27,11 +28,12 @@ const createProfessor = async (req, res) => {
 // Busca todos os professores - get('/findAll')
 const findAll = async (req, res) => {
   try {
-    req.professors;
+    const professors = req.professors;
     res.send(professors)
   }
   catch (err) {
-    res.status(500).send({ message: err.message });
+
+    res.status(500).send({ message: `FindAllError ${err.message}`});
   }
 
 }
@@ -41,9 +43,9 @@ const findByName = async (req, res) => {
   try {
     const nome = req.params.nome;
 
-    const professores = await professorService.findByNameService(nome);
+    const professors = await professorService.findByNameService(nome);
 
-    if (!professores) {
+    if (!professors || professors.length == 0) {
       return res.status(400).send({message: "Não há professores cadastrados com esse nome"})
     }
 
@@ -58,8 +60,8 @@ const findByName = async (req, res) => {
 const updateProfessor = async (req, res) => {
 
   try {
-    await professorService.updateService(req.infos);
-    res.status(200).send({message: "Professor atualizado com sucesso!"})
+    const updatedProfessor = await professorService.updateProfessorService(req.infos);
+    res.status(200).send({message: "Professor atualizado com sucesso!", professor: updatedProfessor})
   }
   catch (err) {
     res.status(500).send({ message: err.message });
