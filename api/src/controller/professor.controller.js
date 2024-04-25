@@ -32,7 +32,6 @@ const findAll = async (req, res) => {
     res.send(professors)
   }
   catch (err) {
-
     res.status(500).send({ message: `FindAllError ${err.message}`});
   }
 
