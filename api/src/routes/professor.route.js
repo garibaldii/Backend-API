@@ -9,6 +9,7 @@ const {
     ValidCurse
 } = require('../middleware/professor.middlewares')
 
+
 // Busca todos os professores
 router.get('/findAll', ValidRegisteredProfessors, professorController.findAll);
 
@@ -16,7 +17,7 @@ router.get('/findAll', ValidRegisteredProfessors, professorController.findAll);
 router.get('/nome/:nome', professorController.findByName);
 
 // Busca professor pelos cursos selecionados
-router.get('/cursos/:cursos', ValidCurse, professorController.findbyCurse);
+router.get('/cursos/:cursos', ValidCurse, professorController.findProfessorByCurse);
 
 // Cria um professor
 router.post('/createProfessor', ValidForm, professorController.createProfessor);

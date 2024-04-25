@@ -4,7 +4,7 @@ const userService = require('../services/user.service');
 const { body, validationResult } = require('express-validator');
 
 // Cria um novo usuário
-const createUsuario = async (req, res) => {
+const createUser = async (req, res) => {
   
   // Definindo as validações utilizando check ou body
   await body('email').isEmail().run(req);
@@ -36,6 +36,6 @@ const findAllUsers = async (req, res) => {
 }
 
 module.exports = { 
-  createUsuario,
+  createUser,
   findAllUsers,
 };

@@ -21,7 +21,9 @@ const updateProfessorService = (
 
 const deleteProfessorService = (matriculaId) => professorModel.findOneAndDelete({ matriculaId: matriculaId });
 
-const findbyCurseService = (cursos) => professorModel.find( {curso: {$in: cursos}} );
+const findProfessorByCurseService = (cursos) => professorModel.find({curso: { $in: cursos }});
+
+const findCurseByNameService = (cursos) => curseModel.find({nome: { $in: cursos }});
 
 module.exports = {
     createProfessorService,
@@ -30,5 +32,6 @@ module.exports = {
     findByMatriculaIdService,
     updateProfessorService,
     deleteProfessorService,
-    findbyCurseService
+    findProfessorByCurseService,
+    findCurseByNameService
 }

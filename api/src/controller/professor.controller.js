@@ -1,5 +1,4 @@
 const professorService = require('../services/professor.service');
-
 // Cadastra professores - post('/createProfessor')
 const createProfessor = async (req, res) => {
   try {
@@ -85,15 +84,16 @@ const deleteProfessor = async (req, res) => {
 }
 
 // Buscar os professores pelos cursos selecionados - get('/cursos/:cursos')
-const findbyCurse = async (req, res) => {
+const findProfessorByCurse = async (req, res) => {
+  
+  try {
+    const professores = await professorService.findProfessorByCurseService(req.cursos);
 
-  const professores = await professorService.findbyCurseService(cursos);
-
-  if(!professores || professores.length === 0) {
-    res.status(404).send("Não há professores que ministram algum dos cursos mencionados")
+    res.send(professores)
   }
-
-  res.send(professores)
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 }
 
 module.exports = {
@@ -102,5 +102,5 @@ module.exports = {
   findByName,
   updateProfessor,
   deleteProfessor,
-  findbyCurse
+  findProfessorByCurse
 }
