@@ -1,23 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const professorController = require('../controller/professor.controller')
-const professorMiddleware = require('../middleware/professor.middlewares')
+const {
+    ValidRegisteredProfessors,
+    ValidForm,
+    ValidUpdate,
+    ValidMatriculaId,
+    ValidCurse
+} = require('../middleware/professor.middlewares')
 
 // Busca todos os professores
-router.get('/findAll', professorMiddleware.ValidRegisteredProfessors, professorController.findAll);
+router.get('/findAll', ValidRegisteredProfessors, professorController.findAll);
 
 // Busca os professores pelo nome
 router.get('/nome/:nome', professorController.findByName);
 
-router.get('/cursos/:cursos', professorController.findbyCurse);
+// Busca professor pelos cursos selecionados
+router.get('/cursos/:cursos', ValidCurse, professorController.findbyCurse);
 
 // Cria um professor
-router.post('/createProfessor', professorMiddleware.ValidForm, professorController.createProfessor);
+router.post('/createProfessor', ValidForm, professorController.createProfessor);
 
-router.put('/:matriculaId', professorController.update);
+// Atualiza os dados de um professor
+router.put('/update/:matriculaId', ValidUpdate, ValidMatriculaId, professorController.updateProfessor);
 
 // Deleta um professor
-router.delete('/deleteProfessor/:matriculaId', professorController.delete);
+router.delete('/deleteProfessor/:matriculaId', ValidMatriculaId, professorController.deleteProfessor);
 
 
 module.exports = router;

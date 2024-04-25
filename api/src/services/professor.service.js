@@ -1,21 +1,23 @@
 const professorModel = require('../model/professor.model');
+const curseModel = require('../model/curse.model');
 
-const createProfessorService = (dadosPrfessor) => professorModel.create(dadosPrfessor);
+const createProfessorService = (dadosProfessor) => professorModel.create(dadosProfessor);
 
 const findAllService = () => professorModel.find();
 
 const findByNameService = (nome) => professorModel.find({nome: {$regex: `.*${nome}.*`, $options: 'i'}});
 
-const findByMatriculaIdService = (numeroMatricula) => 
+const findByMatriculaIdService = (matriculaId) => 
     professorModel.findOne(
-    {numero_matricula: numeroMatricula}
+    {matriculaId: matriculaId}
     );
 
 const updateProfessorService = (
-    nome, numero_matricula, cod_ue, titulacao, referencia, lates, curso, email, observacoes) => 
+    nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes) => {
     professorModel.findOneAndUpdate(
-    { numero_matricula: numero_matricula },
-    { nome, numero_matricula, cod_ue, titulacao, referencia, lates, curso, email, observacoes }); 
+    { matriculaId: matriculaId },
+    { nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes })
+}
 
 const deleteProfessorService = (matriculaId) => professorModel.findOneAndDelete({ matriculaId: matriculaId });
 

@@ -27,7 +27,7 @@ const ProfessorSchema = new mongoose.Schema({
     required: true,
   },
   cursos: {
-    type: Array,
+    type: [String],
     required: true,
   },
   email: {
@@ -35,8 +35,10 @@ const ProfessorSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  status_code: {
+  statusAtividade: {
     type: String,
+    enum: ["Ativo", "Inativo"],
+    required: true,
   },
   notes: {
     type: String,

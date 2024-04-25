@@ -6,7 +6,7 @@ const ValidRegisteredProfessors = async (req, res, next) => {
   try {
     const professors = await professorService.findAllService();
 
-    if (!professors || professores.length === 0) {
+    if (!professors || professors.length === 0) {
       return res.statu(400).send({message: "Não há professores cadastrados"})
     }
 
@@ -38,39 +38,62 @@ const ValidForm = async (req, res, next) => {
 
 const ValidMatriculaId = async (req, res, next) => {
 
-  const matriculaId = req.params.matriculaId;
+  try {
+    const matriculaId = req.params.matriculaId;
 
-  const professor = await professorService.findByMatriculaIdService(matriculaId);
+    const professor = await professorService.findByMatriculaIdService(matriculaId);
 
-  if (!professor) {
-    return res.status(404).send({message: "Não há professor com esse número de matrícula"})
+    if (!professor) {
+      return res.status(404).send({message: "Não há professor com esse número de matrícula"})
+    }
+
+    req.matriculaId = matriculaId;
+    //req.professor = professor;
+    next()
   }
-
-  req.matriculaId = matriculaId;
-  //req.professor = professor;
-  next()
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
 }
 
 const ValidUpdate = async (req, res, next) => {
-  const {
-    nome,
-    matriculaId,
-    unidadeId,
-    titulacao,
-    referencia,
-    lattes,
-    cursos,
-    email,
-    statusAtividade,
-    notes} = req.body;
+  try {
+    const {
+    nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes} = req.body;
 
-  if (!nome && !matriculaId && !unidadeId && !titulacao && !referencia && !lattes && !cursos && !email && statusAtividade && notes) {
-    res.status(400).send({message: "Pelo menos 1 campo precisa ser atualizado"})
+    if (
+      !nome &&
+      !matriculaId && 
+      !unidadeId && 
+      !titulacao && 
+      !referencia && 
+      !lattes && 
+      !cursos && 
+      !email && 
+      !statusAtividade && 
+      !notes) {
+      res.status(400).send({message: "Pelo menos 1 campo precisa ser atualizado"})
+    }
+
+    req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes}
+
+    next()
   }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+}
+
+const ValidCurse = async (req, res, next) => {
+  let cursos = req.params.cursos;
+  cursos = cursos.split(',')
+  
+
 }
 module.exports = {
     ValidRegisteredProfessors,
     ValidForm,
     ValidMatriculaId,
-    ValidUpdate
+    ValidUpdate,
+    ValidCurse
 }
