@@ -57,7 +57,6 @@ const findByName = async (req, res) => {
 
 //Atualiza dados de um professor pelo numero de matricula - put('/update/numero_de_matricula')
 const updateProfessor = async (req, res) => {
-
   try {
     const updatedProfessor = await professorService.updateProfessorService(req.infos);
     res.status(200).send({message: "Professor atualizado com sucesso!", professor: updatedProfessor})

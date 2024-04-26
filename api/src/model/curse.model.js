@@ -21,11 +21,11 @@ const CurseSchema = new mongoose.Schema({
   },
   cargaHoraria: {
     type: Number,
-    require: true,
+    required: true,
   },
   modalidade: {
     type: String,
-    require: true,
+    required: true,
     enum: ["Presencial", "EAD"]
   }
 }) 

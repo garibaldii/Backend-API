@@ -17,7 +17,7 @@ router.get('/findAll', ValidRegisteredProfessors, professorController.findAll);
 router.get('/nome/:nome', professorController.findByName);
 
 // Busca professor pelos cursos selecionados
-router.get('/cursos/:cursos', ValidCurse, professorController.findProfessorByCurse);
+router.get('/cursos/:curses', ValidCurse, professorController.findProfessorByCurse);
 
 // Cria um professor
 router.post('/createProfessor', ValidForm, professorController.createProfessor);

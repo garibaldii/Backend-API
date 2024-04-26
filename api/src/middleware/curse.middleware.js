@@ -1,6 +1,7 @@
 const curseService = require('../services/curse.service')
 
 const ValidForm = (req, res, next) => {
+    try {
     const {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade} = req.body
 
     if(!nome || !codCurse || !disciplinas || !sigla || !cargaHoraria || !modalidade) {
@@ -10,46 +11,66 @@ const ValidForm = (req, res, next) => {
     req.infos = {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade}
 
     next()
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
 
 const ValidSearchCurse = async (req, res, next) => {
-    const curses = await professorService.findAllCursesService();
+    try {
+        const curses = await curseService.findAllCursesService();
 
-    if (!curses || curses.length === 0) {
-      return res.statu(400).send({message: "Não há cursos cadastrados"})
+        if (!curses || curses.length === 0) {
+        return res.statu(400).send({message: "Não há cursos cadastrados"})
+        }
+
+        req.curses = curses;
+        
+        next()
     }
-
-    req.curses = curses;
-    
-    next()
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
 
 const ValidCodCurse = async (req, res, next) => {
-    const {codCurse} = req.params.codCurse
+    try {
+        const codCurse = req.params.codCurse
 
-    const curse = await curseService.findCurseByCodService(codCurse)
+        const curse = await curseService.findCurseByCodService(codCurse)
 
-    if(!curse) {
-        return res.status(400).send({message: "Curso não encontrado"})
+        if(!curse) {
+            return res.status(400).send({message: "Curso não encontrado"})
+        }
+
+        req.curse = curse
+        req.codCurse = codCurse
+
+        next()
     }
-
-    req.curse = curse
-    req.codCurse = codCurse
-
-    next()
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
 
 const ValidUpdate = async (req, res, next) => {
-    const {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade} = req.body
+    try {
+        const {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade} = req.body
 
-    if(!nome && !codCurse && !disciplinas && !sigla && !cargaHoraria && !modalidade) {
-        res.status(400).send({message: 'Ao menos 1 campo precisa ser alterado'})
+        if(!nome && !codCurse && !disciplinas && !sigla && !cargaHoraria && !modalidade) {
+            res.status(400).send({message: 'Ao menos 1 campo precisa ser alterado'})
+        }
+
+        req.infos = {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade}
+
+        next()
     }
-
-    req.infos = {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade}
-
-    next()
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
+
 module.exports = {
     ValidForm,
     ValidSearchCurse,

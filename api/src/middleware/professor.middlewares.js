@@ -87,16 +87,17 @@ const ValidUpdate = async (req, res, next) => {
 const ValidCurse = async (req, res, next) => {
   
   try {
-    let cursos = req.params.cursos;
-    cursos = cursos.split(',')
+    let curses = req.params.curses;
+    curses = curses.split(',')
     
-    const cursosCadastrados = await professorService.findCurseByNameService(cursos);
+    const regiteredCurses = await professorService.findCurseByNameService(curses);
 
-    if(!cursosCadastrados) {
+    if(!regiteredCurses) {
       res.status(400).send({message: 'Os cursos mencionados não estão na base de dados!'})
     }
 
-    req.cursos = cursos;
+    req.curses = curses;
+
     next()
   }
   catch (err) {

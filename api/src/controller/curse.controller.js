@@ -1,32 +1,50 @@
 const curseService = require('../services/curse.service');
-const { findAll } = require('./professor.controller');
 
 const createCurse = async (req, res) => {
-    const curse = await professorService.createCurseService(req.infos);
+    try{
+        const curse = await curseService.createCurseService(req.infos);
 
-    if (!curse) {
-      return res.status(400).send({message: "O professor não foi cadastrado"})
+        if (!curse) {
+        return res.status(400).send({message: "O professor não foi cadastrado"})
+        }
+
+        res.status(201).send({
+            message: "O curso foi cadastrado com sucesso!",
+            curso: {curse}
+        })
     }
-
-    res.status(201).send({
-        message: "O curso foi cadastrado com sucesso!",
-        curso: {...curse}
-    })
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 } 
 
 const findAllCurses = async (req, res) => {
-    res.send(req.curses)
+    try {
+        res.send(req.curses)
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
 
 const deleteCurse = async (req, res) => {
-    await curseService.deleteCurseService(req.cod)
-
-    res.status(200).send({message: "O curso foi deletado com sucesso!"})
+    try {
+        const deletedCurse = await curseService.deleteCurseService(req.codCurse)
+        res.status(200).send({message: "O curso foi deletado com sucesso!", curso: deletedCurse})
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
 
 const updateCurse = async (req, res) => {
-    const updatedCurse = await curseService.updateCurseService(req.infos)
-    res.status(200).send({message: "Professor atualizado com sucesso!", curso: updatedCurse})
+    try {
+        const updatedCurse = await curseService.updateCurseService(req.infos)
+        res.status(200).send({message: "Curso atualizado com sucesso!", curso: updatedCurse})
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message });
+    }
 }
 module.exports = {
     createCurse,

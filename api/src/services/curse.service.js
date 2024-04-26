@@ -10,7 +10,7 @@ const deleteCurseService = (codCurse) => curseModel.findOneAndDelete({codCurse: 
 
 const updateCurseService = (infos) => {
     return curseModel.findOneAndUpdate(
-    { matriculaId: infos.codCurse }, infos,
+    { codCurse: infos.codCurse }, infos,
     { new: true })
 }
 module.exports = {
