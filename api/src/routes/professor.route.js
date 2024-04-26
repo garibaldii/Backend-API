@@ -23,7 +23,7 @@ router.get('/cursos/:cursos', ValidCurse, professorController.findProfessorByCur
 router.post('/createProfessor', ValidForm, professorController.createProfessor);
 
 // Atualiza os dados de um professor
-router.put('/update/:matriculaId', ValidUpdate, ValidMatriculaId, professorController.updateProfessor);
+router.put('/update/:matriculaId', ValidMatriculaId, ValidUpdate, professorController.updateProfessor);
 
 // Deleta um professor
 router.delete('/deleteProfessor/:matriculaId', ValidMatriculaId, professorController.deleteProfessor);

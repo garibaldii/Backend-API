@@ -1,6 +1,6 @@
-//const curseService = require('../services/curse.service')
+const curseService = require('../services/curse.service')
 
-const ValidForm = async (req, res, next) => {
+const ValidForm = (req, res, next) => {
     const {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade} = req.body
 
     if(!nome || !codCurse || !disciplinas || !sigla || !cargaHoraria || !modalidade) {
@@ -23,7 +23,36 @@ const ValidSearchCurse = async (req, res, next) => {
     
     next()
 }
+
+const ValidCodCurse = async (req, res, next) => {
+    const {codCurse} = req.params.codCurse
+
+    const curse = await curseService.findCurseByCodService(codCurse)
+
+    if(!curse) {
+        return res.status(400).send({message: "Curso não encontrado"})
+    }
+
+    req.curse = curse
+    req.codCurse = codCurse
+
+    next()
+}
+
+const ValidUpdate = async (req, res, next) => {
+    const {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade} = req.body
+
+    if(!nome && !codCurse && !disciplinas && !sigla && !cargaHoraria && !modalidade) {
+        res.status(400).send({message: 'Ao menos 1 campo precisa ser alterado'})
+    }
+
+    req.infos = {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade}
+
+    next()
+}
 module.exports = {
     ValidForm,
     ValidSearchCurse,
+    ValidCodCurse,
+    ValidUpdate
 }

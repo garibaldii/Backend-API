@@ -18,7 +18,19 @@ const findAllCurses = async (req, res) => {
     res.send(req.curses)
 }
 
+const deleteCurse = async (req, res) => {
+    await curseService.deleteCurseService(req.cod)
+
+    res.status(200).send({message: "O curso foi deletado com sucesso!"})
+}
+
+const updateCurse = async (req, res) => {
+    const updatedCurse = await curseService.updateCurseService(req.infos)
+    res.status(200).send({message: "Professor atualizado com sucesso!", curso: updatedCurse})
+}
 module.exports = {
     createCurse,
-    findAllCurses
+    findAllCurses,
+    deleteCurse,
+    updateCurse
 }
