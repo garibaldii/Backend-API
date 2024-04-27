@@ -1,4 +1,5 @@
-const professorService = require('../services/professor.service');
+import professorService from '../services/professor.service.js';
+
 // Cadastra professores - post('/createProfessor')
 const createProfessor = async (req, res) => {
   try {
@@ -83,6 +84,7 @@ const deleteProfessor = async (req, res) => {
   }
 }
 
+//MUDARA FORMA COM QUE SE BUSCA OS CURSOS
 // Buscar os professores pelos cursos selecionados - get('/cursos/:cursos')
 const findProfessorByCurse = async (req, res) => {
   
@@ -96,7 +98,7 @@ const findProfessorByCurse = async (req, res) => {
   }
 }
 
-module.exports = {
+export  {
   createProfessor,
   findAll,
   findByName,

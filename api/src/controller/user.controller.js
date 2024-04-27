@@ -1,7 +1,5 @@
-const userService = require('../services/user.service');
-
-//Validações com express-validator
-const { body, validationResult } = require('express-validator');
+import userService from '../services/user.service.js';
+//import { body, validationResult } from 'express-validator';
 
 // Cria um novo usuário
 const createUser = async (req, res) => {
@@ -35,7 +33,7 @@ const findAllUsers = async (req, res) => {
   res.status(200).json(users);
 }
 
-module.exports = { 
+export { 
   createUser,
   findAllUsers,
-};
+}

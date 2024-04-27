@@ -1,4 +1,4 @@
-const userModel = require('../model/user.model');
+import userModel from '../model/user.model.js';
 
 const createUserService = async (dadosUsuario) => {
   try {
@@ -11,7 +11,7 @@ const createUserService = async (dadosUsuario) => {
 
 const findAllUsersService = () => userModel.find();
 
-module.exports = { 
+export default { 
   createUserService,
   findAllUsersService,
 };

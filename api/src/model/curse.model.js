@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const CurseSchema = new mongoose.Schema({
   nome: {
@@ -31,4 +31,5 @@ const CurseSchema = new mongoose.Schema({
 }) 
 
 const curseModel = mongoose.model("Curso", CurseSchema);
-module.exports = curseModel
+
+export default curseModel;

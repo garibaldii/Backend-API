@@ -1,5 +1,5 @@
-const professorService = require('../services/professor.service');
-//const { body, validationResult } = require('express-validator');
+import professorService from '../services/professor.service.js' ;
+//import { body, validationResult } from 'express-validator';
 
 const ValidRegisteredProfessors = async (req, res, next) => {
   
@@ -104,7 +104,7 @@ const ValidCurse = async (req, res, next) => {
     res.status(500).send({ message: err.message });
   }
 }
-module.exports = {
+export {
     ValidRegisteredProfessors,
     ValidForm,
     ValidMatriculaId,

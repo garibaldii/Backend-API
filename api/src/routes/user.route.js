@@ -1,10 +1,15 @@
-const express = require('express');
-const router = require('express').Router();
-const userController = require('../controller/user.controller')
+import { Router } from 'express';
+const router = Router();
 
-router.use(express.json());
+import {
+    createUser,
+    findAllUsers
+} from '../controller/user.controller.js';
 
-router.post('/create', userController.createUser);
-router.get('/findAll', userController.findAllUsers);
+// Cria um novo usuário
+router.post('/create', createUser);
 
-module.exports = router;
+//Busca todos os usuários cadastrados
+router.get('/findAll', findAllUsers);
+
+export default router;

@@ -1,25 +1,21 @@
-const express = require('express');
-const connectDatabase = require('./src/database/db');
-const cors = require('cors');
-const dotenv = require('dotenv').config();
+import express from 'express'
+import connectDatabase from './src/database/db.js';
+import dotenv from 'dotenv'
 
-const professorRoute = require('./src/routes/professor.route');
-const userRoute = require('./src/routes/user.route');
-const curseRoute = require('./src/routes/curse.route')
+import professorRoute from './src/routes/professor.route.js';
+import userRoute from './src/routes/user.route.js';
+import curseRoute from './src/routes/curse.route.js';
 
-const app = express();
+dotenv.config();
+
 const port = process.env.PORT || 3000;
+const app = express();
 
+connectDatabase();
 app.use(express.json())
-app.use(cors());
-
 app.use('/professors', professorRoute);
 app.use('/user', userRoute);
 app.use('/curse', curseRoute);
 
-connectDatabase();
-app.listen(port, () => {
-    console.log(`App rodando na porta ${port} 💻`);
-});
 
-module.exports = app;
+app.listen(port, () => console.log(`App rodando na porta ${port} 💻`));

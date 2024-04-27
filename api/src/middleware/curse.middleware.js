@@ -1,4 +1,4 @@
-const curseService = require('../services/curse.service')
+import curseService from '../services/curse.service.js';
 
 const ValidForm = (req, res, next) => {
     try {
@@ -71,7 +71,7 @@ const ValidUpdate = async (req, res, next) => {
     }
 }
 
-module.exports = {
+export {
     ValidForm,
     ValidSearchCurse,
     ValidCodCurse,

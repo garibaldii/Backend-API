@@ -1,4 +1,4 @@
-const curseModel = require("../model/curse.model");
+import curseModel from '../model/curse.model.js';
 
 const createCurseService = (infos) => curseModel.create(infos);
 
@@ -13,7 +13,7 @@ const updateCurseService = (infos) => {
     { codCurse: infos.codCurse }, infos,
     { new: true })
 }
-module.exports = {
+export default {
     createCurseService,
     findAllCursesService,
     findCurseByCodService,

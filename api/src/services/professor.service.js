@@ -1,5 +1,5 @@
-const professorModel = require('../model/professor.model');
-const curseModel = require('../model/curse.model');
+import professorModel from '../model/professor.model.js';
+import curseModel from '../model/curse.model.js';
 
 const createProfessorService = (dadosProfessor) => professorModel.create(dadosProfessor);
 
@@ -20,11 +20,12 @@ const updateProfessorService = (infos) => {
 
 const deleteProfessorService = (matriculaId) => professorModel.findOneAndDelete({ matriculaId: matriculaId });
 
+//Mudar a forma com que busca os cursos
 const findProfessorByCurseService = (cursos) => professorModel.find({curso: { $in: cursos }});
 
 const findCurseByNameService = (cursos) => curseModel.find({nome: { $in: cursos }});
 
-module.exports = {
+export default {
     createProfessorService,
     findAllService,
     findByNameService,

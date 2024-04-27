@@ -1,4 +1,4 @@
-const curseService = require('../services/curse.service');
+import curseService from '../services/curse.service.js';
 
 const createCurse = async (req, res) => {
     try{
@@ -46,7 +46,7 @@ const updateCurse = async (req, res) => {
         res.status(500).send({ message: err.message });
     }
 }
-module.exports = {
+export  {
     createCurse,
     findAllCurses,
     deleteCurse,

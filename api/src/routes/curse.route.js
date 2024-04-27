@@ -1,23 +1,30 @@
-const express = require('express');
-const router = express.Router();
-const curseController = require('../controller/curse.controller')
-const {
+import { Router } from 'express';
+const router = Router();
+
+import {
+    findAllCurses,
+    createCurse,
+    updateCurse,
+    deleteCurse
+} from '../controller/curse.controller.js';
+
+import {
     ValidForm,
     ValidSearchCurse,
     ValidCodCurse,
     ValidUpdate
-} = require('../middleware/curse.middleware')
+} from '../middleware/curse.middleware.js';
 
 // Busca todos os cursos
-router.get('/findAll', ValidSearchCurse, curseController.findAllCurses);
+router.get('/findAll', ValidSearchCurse, findAllCurses);
 
 // Cadastra um novo curso
-router.post('/createCurse', ValidForm, curseController.createCurse);
+router.post('/createCurse', ValidForm, createCurse);
 
 // Atualiza os dados de algum curso
-router.put('/updateCurse/:codCurse', ValidCodCurse, ValidUpdate, curseController.updateCurse);
+router.put('/updateCurse/:codCurse', ValidCodCurse, ValidUpdate, updateCurse);
 
 // Remove um curso da base de dados
-router.delete('/deleteCurse/:codCurse', ValidCodCurse, curseController.deleteCurse);
+router.delete('/deleteCurse/:codCurse', ValidCodCurse, deleteCurse);
 
-module.exports = router;
+export default router;
