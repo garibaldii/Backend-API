@@ -12,9 +12,9 @@ import {
 } from '../middleware/user.middleware.js'
 
 // Cria um novo usuário
-router.post('/createUser', ValidForm, createUser);
+router.post('/', ValidForm, createUser);
 
 //Busca todos os usuários cadastrados
-router.get('/findAll', ValidRegisteredUsers, findAllUsers);
+router.get('/', ValidRegisteredUsers, findAllUsers);
 
 export default router;

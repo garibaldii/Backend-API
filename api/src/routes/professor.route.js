@@ -20,22 +20,22 @@ import {
 
 
 // Busca todos os professores
-router.get('/findAll', ValidRegisteredProfessors, findAll);
+router.get('/', ValidRegisteredProfessors, findAll);
 
 // Busca os professores pelo nome
-router.get('/nome/:nome', findByName);
+router.get('/name/:nome', findByName);
 
 // Busca professor pelos cursos selecionados
-router.get('/cursos/:curses', ValidCurse, findProfessorByCurse);
+router.get('/curses/:curses', ValidCurse, findProfessorByCurse);
 
 // Cria um professor
-router.post('/createProfessor', ValidForm, createProfessor);
+router.post('/', ValidForm, createProfessor);
 
 // Atualiza os dados de um professor
-router.put('/update/:matriculaId', ValidMatriculaId, ValidUpdate, updateProfessor);
+router.put('/:matriculaId', ValidMatriculaId, ValidUpdate, updateProfessor);
 
 // Deleta um professor
-router.delete('/deleteProfessor/:matriculaId', ValidMatriculaId, deleteProfessor);
+router.delete('/:matriculaId', ValidMatriculaId, deleteProfessor);
 
 
 export default router;

@@ -16,15 +16,15 @@ import {
 } from '../middleware/curse.middleware.js';
 
 // Busca todos os cursos
-router.get('/findAll', ValidSearchCurse, findAllCurses);
+router.get('/', ValidSearchCurse, findAllCurses);
 
 // Cadastra um novo curso
-router.post('/createCurse', ValidForm, createCurse);
+router.post('/e', ValidForm, createCurse);
 
 // Atualiza os dados de algum curso
-router.put('/updateCurse/:codCurse', ValidCodCurse, ValidUpdate, updateCurse);
+router.put('/:codCurse', ValidCodCurse, ValidUpdate, updateCurse);
 
 // Remove um curso da base de dados
-router.delete('/deleteCurse/:codCurse', ValidCodCurse, deleteCurse);
+router.delete('/:codCurse', ValidCodCurse, deleteCurse);
 
 export default router;
