@@ -29,8 +29,7 @@ const createProfessor = async (req, res) => {
 // Busca todos os professores - get('/findAll')
 const findAll = async (req, res) => {
   try {
-    const professors = req.professors;
-    res.send(professors)
+    res.status(200).send(req.professors)
   }
   catch (err) {
     res.status(500).send({ message: `FindAllError ${err.message}`});

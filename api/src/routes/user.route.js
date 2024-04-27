@@ -6,10 +6,15 @@ import {
     findAllUsers
 } from '../controller/user.controller.js';
 
+import {
+    ValidForm,
+    ValidRegisteredUsers
+} from '../middleware/user.middleware.js'
+
 // Cria um novo usuário
-router.post('/create', createUser);
+router.post('/createUser', ValidForm, createUser);
 
 //Busca todos os usuários cadastrados
-router.get('/findAll', findAllUsers);
+router.get('/findAll', ValidRegisteredUsers, findAllUsers);
 
 export default router;

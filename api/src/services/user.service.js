@@ -1,13 +1,6 @@
 import userModel from '../model/user.model.js';
 
-const createUserService = async (dadosUsuario) => {
-  try {
-    const usuario = await userModel.create(dadosUsuario);
-  } 
-  catch (error) {
-    throw new Error('Erro ao criar usuário');
-  }
-};
+const createUserService = async (userInfos) => userModel.create(userInfos);
 
 const findAllUsersService = () => userModel.find();
 
