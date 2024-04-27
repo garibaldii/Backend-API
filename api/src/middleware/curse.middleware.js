@@ -2,13 +2,13 @@ import curseService from '../services/curse.service.js';
 
 const ValidForm = (req, res, next) => {
     try {
-    const {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade} = req.body
+    const {nome, codCurse, disciplinas, sigla, modalidade} = req.body
 
-    if(!nome || !codCurse || !disciplinas || !sigla || !cargaHoraria || !modalidade) {
+    if(!nome || !codCurse || !disciplinas || !sigla || !modalidade) {
         res.status(400).send({message: 'Todos os campos precisam ser preechidos'})
     }
 
-    req.infos = {nome, codCurse, disciplinas, sigla, cargaHoraria, modalidade}
+    req.infos = {nome, codCurse, disciplinas, sigla, modalidade}
 
     next()
     }
@@ -22,7 +22,7 @@ const ValidSearchCurse = async (req, res, next) => {
         const curses = await curseService.findAllCursesService();
 
         if (!curses || curses.length === 0) {
-        return res.statu(400).send({message: "Não há cursos cadastrados"})
+        return res.status(400).send({message: "Não há cursos cadastrados"})
         }
 
         req.curses = curses;

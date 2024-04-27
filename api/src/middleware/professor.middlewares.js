@@ -7,7 +7,7 @@ const ValidRegisteredProfessors = async (req, res, next) => {
     const professors = await professorService.findAllService();
 
     if (!professors || professors.length === 0) {
-      return res.statu(400).send({message: "Não há professores cadastrados"})
+      return res.status(400).send({message: "Não há professores cadastrados"})
     }
 
     req.professors = professors;

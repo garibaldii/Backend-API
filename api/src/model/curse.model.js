@@ -19,17 +19,17 @@ const CurseSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  cargaHoraria: {
-    type: Number,
-    required: true,
-  },
   modalidade: {
     type: String,
     required: true,
-    enum: ["Presencial", "EAD"]
-  }
+    enum: ["Presencial", "EAD", "Híbrido"]
+  },
+  professors: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Professor"
+  }]
 }) 
 
-const curseModel = mongoose.model("Curso", CurseSchema);
+const curseModel = mongoose.model("Curse", CurseSchema);
 
 export default curseModel;

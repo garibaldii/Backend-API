@@ -26,10 +26,10 @@ const ProfessorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cursos: {
-    type: [String],
-    required: true,
-  },
+  cursos: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Curse"
+  }],
   email: {
     type: String,
     required: true,

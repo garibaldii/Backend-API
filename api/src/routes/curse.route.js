@@ -19,7 +19,7 @@ import {
 router.get('/', ValidSearchCurse, findAllCurses);
 
 // Cadastra um novo curso
-router.post('/e', ValidForm, createCurse);
+router.post('/', ValidForm, createCurse);
 
 // Atualiza os dados de algum curso
 router.put('/:codCurse', ValidCodCurse, ValidUpdate, updateCurse);
