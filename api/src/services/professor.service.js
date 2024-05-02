@@ -1,16 +1,18 @@
 import professorModel from '../model/professor.model.js';
-import curseModel from '../model/curse.model.js';
+import courseModel from '../model/course.model.js';
 
 const createProfessorService = (dadosProfessor) => professorModel.create(dadosProfessor);
 
-const findAllService = () => professorModel.find();
+const findAllService = () => professorModel.find().populate('coursesId', 'nome');;
 
-const findByNameService = (nome) => professorModel.find({nome: {$regex: `.*${nome}.*`, $options: 'i'}});
-
-const findByMatriculaIdService = (matriculaId) => 
-    professorModel.findOne(
-    {matriculaId: matriculaId}
-    );
+const findByNameService = (nome) => {
+    professorModel.find({nome: {$regex: `.*${nome}.*`, $options: 'i'}}).populate('coursesId', 'nome');
+}
+//SUBSTITUIR POR UMA BUSCA PELO _id DO PROFESSOR
+// const findByMatriculaIdService = (matriculaId) => 
+//     professorModel.findOne(
+//     {matriculaId: matriculaId}
+//     );
 
 const updateProfessorService = (infos) => {
     return professorModel.findOneAndUpdate(
@@ -20,10 +22,8 @@ const updateProfessorService = (infos) => {
 
 const deleteProfessorService = (matriculaId) => professorModel.findOneAndDelete({ matriculaId: matriculaId });
 
-//Mudar a forma com que busca os cursos
-const findProfessorByCurseService = (cursos) => professorModel.find({curso: { $in: cursos }});
+const findProfessorByCourseService = (coursesId) => professorModel.find({courses: { $in: coursesId }}).populate('coursesId', 'nome');
 
-const findCurseByNameService = (cursos) => curseModel.find({nome: { $in: cursos }});
 
 export default {
     createProfessorService,
@@ -32,6 +32,5 @@ export default {
     findByMatriculaIdService,
     updateProfessorService,
     deleteProfessorService,
-    findProfessorByCurseService,
-    findCurseByNameService
+    findProfessorByCourseService,
 }

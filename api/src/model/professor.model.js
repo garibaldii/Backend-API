@@ -26,9 +26,10 @@ const ProfessorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cursos: [{
+  coursesId: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Curse"
+    ref: "Course",
+    required: true,
   }],
   email: {
     type: String,
@@ -38,10 +39,12 @@ const ProfessorSchema = new mongoose.Schema({
   statusAtividade: {
     type: String,
     enum: ["Ativo", "Inativo"],
+    default: "Ativo",
     required: true,
   },
   notes: {
     type: String,
+    default: "Não há obervações"
   }
 }) 
 

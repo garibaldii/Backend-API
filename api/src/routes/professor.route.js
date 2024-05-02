@@ -4,7 +4,7 @@ const router = Router();
 import {
     findAll,
     findByName,
-    findProfessorByCurse,
+    findProfessorByCourse,
     createProfessor,
     updateProfessor,
     deleteProfessor
@@ -14,8 +14,8 @@ import {
     ValidRegisteredProfessors,
     ValidForm,
     ValidUpdate,
-    ValidMatriculaId,
-    ValidCurse
+    ValidId,
+    ValidSearchCourse
 } from'../middleware/professor.middlewares.js';
 
 
@@ -23,19 +23,19 @@ import {
 router.get('/', ValidRegisteredProfessors, findAll);
 
 // Busca os professores pelo nome
-router.get('/name/:nome', findByName);
+router.get('/:nome', findByName);
 
 // Busca professor pelos cursos selecionados
-router.get('/curses/:curses', ValidCurse, findProfessorByCurse);
+router.get('/:courseId', ValidId, ValidSearchCourse, findProfessorByCourse);
 
 // Cria um professor
 router.post('/', ValidForm, createProfessor);
 
 // Atualiza os dados de um professor
-router.put('/:matriculaId', ValidMatriculaId, ValidUpdate, updateProfessor);
+router.put('/:id', ValidId, ValidUpdate, updateProfessor);
 
 // Deleta um professor
-router.delete('/:matriculaId', ValidMatriculaId, deleteProfessor);
+router.delete('/:id', ValidId, deleteProfessor);
 
 
 export default router;

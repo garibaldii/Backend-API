@@ -1,4 +1,6 @@
 import professorService from '../services/professor.service.js' ;
+import courseService from '../services/course.service.js';
+import mongoose from 'mongoose';
 //import { body, validationResult } from 'express-validator';
 
 const ValidRegisteredProfessors = async (req, res, next) => {
@@ -21,14 +23,22 @@ const ValidRegisteredProfessors = async (req, res, next) => {
 
 const ValidForm = async (req, res, next) => {
   try {
-    const {nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email} = req.body;
+    const {nome, matriculaId, unidadeId, titulacao, referencia, lattes, coursesId, email, notes} = req.body;
 
-    if (!nome || !matriculaId || !unidadeId || !titulacao || !referencia || !lattes || !cursos || !email) {
-      res.status(400).send({message: "Todos os campos precisam ser preenchidos"})
+    if (!nome || !matriculaId || !unidadeId || !titulacao || !referencia
+      || !lattes || !coursesId || coursesId.length == 0 || !email) {
+      res.status(400).send({message: "Todos os campos obirgatórios precisam ser preenchidos"})
     }
 
-    req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email};
-    
+    //Validação da existência do(s) curso(s) no DB
+    const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
+
+    if(!regiteredCourses || regiteredCourses.length === coursesId.length) {
+      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum courseId inválido"})
+    }
+
+    req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, coursesId, email, notes};
+
     next()
   } 
   catch (err) {
@@ -36,19 +46,19 @@ const ValidForm = async (req, res, next) => {
   }
 }
 
-const ValidMatriculaId = async (req, res, next) => {
-
+const ValidId = async (req, res, next) => {
   try {
-    const matriculaId = req.params.matriculaId;
+    const ids = req.params.id;
 
-    const professor = await professorService.findByMatriculaIdService(matriculaId);
-
-    if (!professor) {
-      return res.status(404).send({message: "Não há professor com esse número de matrícula"})
+    for (const id of ids) {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ message: `O ID '${id}' não é válido` });
+      }
     }
 
-    req.matriculaId = matriculaId;
-    //req.professor = professor;
+    req.courseId = ids;
+    req.id = ids;
+
     next()
   }
   catch (err) {
@@ -59,7 +69,7 @@ const ValidMatriculaId = async (req, res, next) => {
 const ValidUpdate = async (req, res, next) => {
   try {
     const {
-    nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes} = req.body;
+    nome, matriculaId, unidadeId, titulacao, referencia, lattes, coursesId, email, statusAtividade, notes} = req.body;
 
     if (
       !nome &&
@@ -68,35 +78,22 @@ const ValidUpdate = async (req, res, next) => {
       !titulacao && 
       !referencia && 
       !lattes && 
-      !cursos && 
+      !coursesId && 
+      coursesId.length == 0 && 
       !email && 
       !statusAtividade && 
       !notes) {
       res.status(400).send({message: "Pelo menos 1 campo precisa ser atualizado"})
     }
 
-    req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, cursos, email, statusAtividade, notes}
+    //Validação da existência do(s) curso(s) no DB
+    const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
 
-    next()
-  }
-  catch (err) {
-    res.status(500).send({ message: err.message });
-  }
-}
-
-const ValidCurse = async (req, res, next) => {
-  
-  try {
-    let curses = req.params.curses;
-    curses = curses.split(',')
-    
-    const regiteredCurses = await professorService.findCurseByNameService(curses);
-
-    if(!regiteredCurses) {
-      res.status(400).send({message: 'Os cursos mencionados não estão na base de dados!'})
+    if(!regiteredCourses || regiteredCourses.length === coursesId.length) {
+      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum courseId inválido"})
     }
 
-    req.curses = curses;
+    req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, coursesId, email, statusAtividade, notes}
 
     next()
   }
@@ -104,10 +101,31 @@ const ValidCurse = async (req, res, next) => {
     res.status(500).send({ message: err.message });
   }
 }
+
+const ValidSearchCourse = async (req, res, next) => {
+  try {
+    const courseId = req.courseId;
+    
+    const regiteredCourses = await courseService.findCoursesByIdService(courseId);
+
+    if(!regiteredCourses || regiteredCourses.length === courseId.length) {
+      res.status(400).send({message: 'Algum dos cursos mencionados não estão na base de dados!'})
+    }
+
+    req.courseId = courseId;
+    req.regiteredCourses = regiteredCourses;
+
+    next()
+  }
+  catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+}
+
 export {
     ValidRegisteredProfessors,
     ValidForm,
-    ValidMatriculaId,
+    ValidId,
     ValidUpdate,
-    ValidCurse
+    ValidSearchCourse
 }

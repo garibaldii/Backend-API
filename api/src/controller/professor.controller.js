@@ -1,24 +1,21 @@
+import { associateProfessorToCourse } from '../controller/course.controller.js'
 import professorService from '../services/professor.service.js';
 
 // Cadastra professores - post('/createProfessor')
 const createProfessor = async (req, res) => {
   try {
-    const dadosProfessor = {
-      //corrijir para conseguir criar um professor que tenha observações
-      ...req.infos,
-      statusAtividade: "Ativo",
-      observacoes: ""
-    }
-
-    const professor = await professorService.createProfessorService(dadosProfessor);
+    const professor = await professorService.createProfessorService(req.infos);
 
     if (!professor) {
       return res.status(400).send({message: "O professor não foi cadastrado"})
     }
 
+    const teste = await associateProfessorToCourse(professor._id, professor.coursesId);
+
     res.status(201).send({
       message: "O professor foi cadastrado com sucesso!",
-      professor: {...dadosProfessor}
+      professor: {professor},
+      cursoAssociado: teste
     })
   } 
   catch (err) {
@@ -48,7 +45,7 @@ const findByName = async (req, res) => {
       return res.status(400).send({message: "Não há professores cadastrados com esse nome"})
     }
 
-    res.send(professores)
+    res.send(professors)
   }
   catch (err) {
     res.status(500).send({ message: err.message });
@@ -59,7 +56,12 @@ const findByName = async (req, res) => {
 const updateProfessor = async (req, res) => {
   try {
     const updatedProfessor = await professorService.updateProfessorService(req.infos);
-    res.status(200).send({message: "Professor atualizado com sucesso!", professor: updatedProfessor})
+
+    res.status(201).send({
+      message: "O professor foi atualizado com sucesso!",
+      professor: {updatedProfessor},
+      cursoAssociado: teste
+    })
   }
   catch (err) {
     res.status(500).send({ message: err.message });
@@ -83,13 +85,10 @@ const deleteProfessor = async (req, res) => {
   }
 }
 
-//MUDARA FORMA COM QUE SE BUSCA OS CURSOS
-// Buscar os professores pelos cursos selecionados - get('/cursos/:cursos')
-const findProfessorByCurse = async (req, res) => {
-  
+// Buscar os professores pelos cursos selecionados - get('/courses/:courses')
+const findProfessorByCourse = async (req, res) => {
   try {
-    const professores = await professorService.findProfessorByCurseService(req.cursos);
-
+    const professores = await professorService.findProfessorByCourseService(req.coursesId);
     res.send(professores)
   }
   catch (err) {
@@ -97,11 +96,12 @@ const findProfessorByCurse = async (req, res) => {
   }
 }
 
+
 export  {
   createProfessor,
   findAll,
   findByName,
   updateProfessor,
   deleteProfessor,
-  findProfessorByCurse
+  findProfessorByCourse
 }

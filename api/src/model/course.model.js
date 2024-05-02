@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
-const CurseSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
   nome: {
     type:  String,
     required: true,
     unique: true
   },
-  codCurse: {
+  codCourse: {
     type: String,
     required: true,
     unique: true
@@ -17,19 +17,25 @@ const CurseSchema = new mongoose.Schema({
   },
   sigla: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   modalidade: {
     type: String,
     required: true,
     enum: ["Presencial", "EAD", "Híbrido"]
   },
-  professors: [{
+  professors: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Professor"
-  }]
+    ref: "Professor",
+    required: true
+  },
+  coordenador: {
+    type: String,
+    required: true,
+  }
 }) 
 
-const curseModel = mongoose.model("Curse", CurseSchema);
+const courseModel = mongoose.model("Course", CourseSchema);
 
-export default curseModel;
+export default courseModel;
