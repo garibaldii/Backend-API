@@ -33,7 +33,7 @@ const ValidForm = async (req, res, next) => {
     //Validação da existência do(s) curso(s) no DB
     const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
 
-    if(!regiteredCourses || regiteredCourses.length === coursesId.length) {
+    if(!regiteredCourses || regiteredCourses.length !== coursesId.length) {
       res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum courseId inválido"})
     }
 
@@ -48,16 +48,17 @@ const ValidForm = async (req, res, next) => {
 
 const ValidId = async (req, res, next) => {
   try {
-    const ids = req.params.id;
+    let ids = req.params.id;
+    ids = ids.split(',')
 
-    for (const id of ids) {
+    for (let id of ids) {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).send({ message: `O ID '${id}' não é válido` });
       }
     }
 
-    req.courseId = ids;
-    req.id = ids;
+    req.courseId = ids; //Caso seja um curso
+    req.id = ids; // Caso seja um professor
 
     next()
   }
@@ -89,7 +90,7 @@ const ValidUpdate = async (req, res, next) => {
     //Validação da existência do(s) curso(s) no DB
     const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
 
-    if(!regiteredCourses || regiteredCourses.length === coursesId.length) {
+    if(!regiteredCourses || regiteredCourses.length !== coursesId.length) {
       res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum courseId inválido"})
     }
 

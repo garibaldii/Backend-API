@@ -1,7 +1,7 @@
-import { associateProfessorToCourse } from '../controller/course.controller.js'
+import { associateProfessorToCourse, desassociateProfessorFromCourse } from '../controller/course.controller.js'
 import professorService from '../services/professor.service.js';
 
-// Cadastra professores - post('/createProfessor')
+// Cadastra professores - post('/')
 const createProfessor = async (req, res) => {
   try {
     const professor = await professorService.createProfessorService(req.infos);
@@ -10,12 +10,11 @@ const createProfessor = async (req, res) => {
       return res.status(400).send({message: "O professor não foi cadastrado"})
     }
 
-    const teste = await associateProfessorToCourse(professor._id, professor.coursesId);
+    await associateProfessorToCourse(professor._id, professor.coursesId);
 
     res.status(201).send({
       message: "O professor foi cadastrado com sucesso!",
-      professor: {professor},
-      cursoAssociado: teste
+      professor: {professor}
     })
   } 
   catch (err) {
@@ -23,7 +22,7 @@ const createProfessor = async (req, res) => {
   }
 }
 
-// Busca todos os professores - get('/findAll')
+// Busca todos os professores - get('/')
 const findAll = async (req, res) => {
   try {
     res.status(200).send(req.professors)
@@ -34,7 +33,7 @@ const findAll = async (req, res) => {
 
 }
 
-// Busca os professores pelo nome - get('/nome/:nome')
+// Busca os professores pelo nome - get(':nome')
 const findByName = async (req, res) => {
   try {
     const nome = req.params.nome;
@@ -52,15 +51,19 @@ const findByName = async (req, res) => {
   }
 }
 
-//Atualiza dados de um professor pelo numero de matricula - put('/update/numero_de_matricula')
+//Atualiza dados de um professor pelo numero de matricula - put('/:id')
 const updateProfessor = async (req, res) => {
   try {
+    const professor = await professorService.findByIdService(req.id)
+    desassociateProfessorFromCourse(req.id, professor.coursesId);
+
     const updatedProfessor = await professorService.updateProfessorService(req.infos);
+
+    associateProfessorToCourse(updatedProfessor._id, updatedProfessor.coursesId);
 
     res.status(201).send({
       message: "O professor foi atualizado com sucesso!",
-      professor: {updatedProfessor},
-      cursoAssociado: teste
+      professor: {updatedProfessor}
     })
   }
   catch (err) {
@@ -68,14 +71,18 @@ const updateProfessor = async (req, res) => {
   }
 }
 
-//Deleta um professor da base de dados - delete('/delete/:matriculaId')
+//Deleta um professor da base de dados - delete('/:id')
 const deleteProfessor = async (req, res) => {
 
   try {
-    await professorService.deleteProfessorService(req.matriculaId);
-    /* TESTAR SE O PROFESSOR EXISTE NA BASE DE DADOS
-    APÓS O DELETE COM if(!professor) E IMPORTAR O req.professor
-    DO MIDDLEWARE PARA REALIZAR ESSA VALIDAÇÃO*/
+    const deletedProfessor = await professorService.deleteProfessorService(req.id);
+    
+    if(await professorService.findByIdService(req.id)){
+      res.status(400).send({message: 'Professor não deletado'})
+    }
+    
+    await desassociateProfessorFromCourse(deletedProfessor.id, deletedProfessor.coursesId);
+    
     res.status(200).send({
       message: "Professor removido com sucesso!"
     })

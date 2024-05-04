@@ -16,13 +16,21 @@ const updateCourseService = (codCourse, infos) => {
 
 const findCoursesByIdService = (courseId) => courseModel.find({_id: {$in: courseId}});
 
-const associateProfessorToCourseService = (courseId, professorId) => {
-    return courseModel.findOneAndUpdate(
-    { _id: courseId }, 
-    { $addToSet: { professors: professorId } },
-    { new: true }
+const associateProfessorToCourseService = (professorId, courseIds) => {
+    return courseModel.updateMany(
+        { _id: { $in: courseIds } }, 
+        { $addToSet: { professors: professorId } },
+        { new: true }
     );
 }
+
+const desassociateProfessorFromCourseService = (professorId, courseId) => {
+    courseModel.updateMany(
+        { _id: { $in: courseId } },
+        { $pull: { professors: professorId } }
+    );
+}
+
 
 export default {
     createCourseService,
@@ -31,5 +39,6 @@ export default {
     deleteCourseService,
     updateCourseService,
     findCoursesByIdService,
-    associateProfessorToCourseService
+    associateProfessorToCourseService,
+    desassociateProfessorFromCourseService
 }

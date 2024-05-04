@@ -47,10 +47,12 @@ const updateCourse = async (req, res) => {
     }
 }
 
-const associateProfessorToCourse = async (professorId, courseId) => {
-    //realizar um update no course de courseId passando professorId
-    const associatedCourse = courseService.associateProfessorToCourseService(professorId, courseId);
-    return associatedCourse;
+const associateProfessorToCourse = (professorId, courseId) => {
+    courseService.associateProfessorToCourseService(professorId, courseId);
+}
+
+const desassociateProfessorFromCourse = (professorId, courseId) => {
+    courseService.desassociateProfessorFromCourseService(professorId, courseId);
 }
 
 
@@ -60,5 +62,6 @@ export {
     findAllCourses,
     deleteCourse,
     updateCourse,
-    associateProfessorToCourse
+    associateProfessorToCourse,
+    desassociateProfessorFromCourse
 }

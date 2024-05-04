@@ -25,11 +25,10 @@ const CourseSchema = new mongoose.Schema({
     required: true,
     enum: ["Presencial", "EAD", "Híbrido"]
   },
-  professors: {
+  professors: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Professor",
-    required: true
-  },
+  }],
   coordenador: {
     type: String,
     required: true,
