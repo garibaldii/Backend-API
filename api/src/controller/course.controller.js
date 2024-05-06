@@ -29,8 +29,8 @@ const findAllCourses = async (req, res) => {
 
 const deleteCourse = async (req, res) => {
     try {
-        const deletedCourse = await courseService.deleteCourseService(req.codCourse)
-        res.status(200).send({message: "O curso foi deletado com sucesso!", course: deletedCourse})
+        const deletedCourse = await courseService.deleteCourseService(req.courseId)
+        res.status(200).send({message: "O curso foi deletado com sucesso!", courso: deletedCourse})
     }
     catch (err) {
         res.status(500).send({ message: err.message });
@@ -39,7 +39,7 @@ const deleteCourse = async (req, res) => {
 
 const updateCourse = async (req, res) => {
     try {
-        const updatedCourse = await courseService.updateCourseService(req.infos.codCourse, req.infos)
+        const updatedCourse = await courseService.updateCourseService(req.courseId, req.infos)
         res.status(200).send({message: "Curso atualizado com sucesso!", course: updatedCourse})
     }
     catch (err) {
@@ -47,12 +47,13 @@ const updateCourse = async (req, res) => {
     }
 }
 
-const associateProfessorToCourse = (professorId, courseId) => {
-    courseService.associateProfessorToCourseService(professorId, courseId);
+const associateProfessorToCourse = (professorId, coursesId) => {
+    courseService.associateProfessorToCourseService(professorId, coursesId);
+    
 }
 
-const desassociateProfessorFromCourse = (professorId, courseId) => {
-    courseService.desassociateProfessorFromCourseService(professorId, courseId);
+const desassociateProfessorFromCourse = (professorId, coursesId) => {
+    courseService.desassociateProfessorFromCourseService(professorId, coursesId);
 }
 
 

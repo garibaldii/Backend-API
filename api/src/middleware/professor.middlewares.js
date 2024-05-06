@@ -1,5 +1,6 @@
 import professorService from '../services/professor.service.js' ;
 import courseService from '../services/course.service.js';
+import { checkCourseExistence } from '../middleware/course.middleware.js'
 import mongoose from 'mongoose';
 //import { body, validationResult } from 'express-validator';
 
@@ -31,10 +32,8 @@ const ValidForm = async (req, res, next) => {
     }
 
     //Validação da existência do(s) curso(s) no DB
-    const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
-
-    if(!regiteredCourses || regiteredCourses.length !== coursesId.length) {
-      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum courseId inválido"})
+    if (!checkCourseExistence(coursesId)) {
+      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum coursesId inválido"})
     }
 
     req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, coursesId, email, notes};
@@ -57,7 +56,11 @@ const ValidId = async (req, res, next) => {
       }
     }
 
-    req.courseId = ids; //Caso seja um curso
+    if (!checkCourseExistence(ids)) {
+      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum coursesId inválido"})
+    }
+
+    req.coursesId = ids; //Caso seja um curso
     req.id = ids; // Caso seja um professor
 
     next()
@@ -88,10 +91,8 @@ const ValidUpdate = async (req, res, next) => {
     }
 
     //Validação da existência do(s) curso(s) no DB
-    const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
-
-    if(!regiteredCourses || regiteredCourses.length !== coursesId.length) {
-      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum courseId inválido"})
+    if (!checkCourseExistence(coursesId)) {
+      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum coursesId inválido"})
     }
 
     req.infos = {nome, matriculaId, unidadeId, titulacao, referencia, lattes, coursesId, email, statusAtividade, notes}
@@ -105,15 +106,16 @@ const ValidUpdate = async (req, res, next) => {
 
 const ValidSearchCourse = async (req, res, next) => {
   try {
-    const courseId = req.courseId;
+    const coursesId = req.params.courseId;
     
-    const regiteredCourses = await courseService.findCoursesByIdService(courseId);
+    const regiteredCourses = await courseService.findCoursesByIdService(coursesId);
 
-    if(!regiteredCourses || regiteredCourses.length === courseId.length) {
-      res.status(400).send({message: 'Algum dos cursos mencionados não estão na base de dados!'})
+    //Validação da existência do(s) curso(s) no DB
+    if (!checkCourseExistence(coursesId)) {
+      res.status(400).send({message: "Todos cursos precisam existir na base de dados, algum coursesId inválido"})
     }
 
-    req.courseId = courseId;
+    req.coursesId = coursesId;
     req.regiteredCourses = regiteredCourses;
 
     next()

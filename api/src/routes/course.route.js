@@ -11,7 +11,7 @@ import {
 import {
     ValidForm,
     ValidSearchCourse,
-    ValidCodCourse,
+    ValidIdCourse,
     ValidUpdate,
 } from '../middleware/course.middleware.js';
 
@@ -22,10 +22,10 @@ router.get('/', ValidSearchCourse, findAllCourses);
 router.post('/', ValidForm, createCourse);
 
 // Atualiza os dados de algum curso
-router.put('/:codCourse', ValidCodCourse, ValidUpdate, updateCourse);
+router.put('/:id', ValidIdCourse, ValidUpdate, updateCourse);
 
 // Remove um curso da base de dados
-router.delete('/:codCourse', ValidCodCourse, deleteCourse);
+router.delete('/:id', ValidIdCourse, deleteCourse);
 
 
 export default router;

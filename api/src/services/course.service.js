@@ -2,31 +2,32 @@ import courseModel from '../model/course.model.js';
 
 const createCourseService = (infos) => courseModel.create(infos);
 
-const findAllCoursesService = () => courseModel.find();
+const findAllCoursesService = () => courseModel.find().populate('professors', 'nome');
 
-const findCourseByCodService = (codCourse) => courseModel.findOne({codCourse: codCourse});
+const findCourseByIdService = (courseId) => courseModel.findOne({_id: courseId});
 
-const deleteCourseService = (codCourse) => courseModel.findOneAndDelete({codCourse: codCourse});
+const deleteCourseService = (courseId) => courseModel.findOneAndDelete({_id: courseId});
 
-const updateCourseService = (codCourse, infos) => {
+const updateCourseService = (courseId, infos) => {
     return courseModel.findOneAndUpdate(
-    { codCourse: codCourse }, infos,
+    { _id: courseId },
+    infos,
     { new: true })
 }
 
 const findCoursesByIdService = (courseId) => courseModel.find({_id: {$in: courseId}});
 
-const associateProfessorToCourseService = (professorId, courseIds) => {
-    return courseModel.updateMany(
-        { _id: { $in: courseIds } }, 
+const associateProfessorToCourseService = (professorId, coursesId) => {
+    courseModel.updateMany(
+        { _id: { $in: coursesId } }, 
         { $addToSet: { professors: professorId } },
         { new: true }
     );
 }
 
-const desassociateProfessorFromCourseService = (professorId, courseId) => {
+const desassociateProfessorFromCourseService = (professorId, coursesId) => {
     courseModel.updateMany(
-        { _id: { $in: courseId } },
+        { _id: { $in: coursesId } },
         { $pull: { professors: professorId } }
     );
 }
@@ -35,7 +36,7 @@ const desassociateProfessorFromCourseService = (professorId, courseId) => {
 export default {
     createCourseService,
     findAllCoursesService,
-    findCourseByCodService,
+    findCourseByIdService,
     deleteCourseService,
     updateCourseService,
     findCoursesByIdService,

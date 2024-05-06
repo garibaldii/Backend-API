@@ -11,6 +11,7 @@ const createProfessor = async (req, res) => {
     }
 
     await associateProfessorToCourse(professor._id, professor.coursesId);
+    console.log(professor._id, professor.coursesId) //teste para vizualizar o que estava sendo passado
 
     res.status(201).send({
       message: "O professor foi cadastrado com sucesso!",
@@ -73,15 +74,14 @@ const updateProfessor = async (req, res) => {
 
 //Deleta um professor da base de dados - delete('/:id')
 const deleteProfessor = async (req, res) => {
-
   try {
-    const deletedProfessor = await professorService.deleteProfessorService(req.id);
+    const deletedProfessor = await professorService.deleteProfessorService(req.params.id);
     
-    if(await professorService.findByIdService(req.id)){
+    if(await professorService.findByIdService(deletedProfessor._id)){
       res.status(400).send({message: 'Professor não deletado'})
     }
     
-    await desassociateProfessorFromCourse(deletedProfessor.id, deletedProfessor.coursesId);
+    await desassociateProfessorFromCourse(deletedProfessor._id, deletedProfessor.coursesId);
     
     res.status(200).send({
       message: "Professor removido com sucesso!"
