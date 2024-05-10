@@ -6,7 +6,7 @@ const ValidForm = (req, res, next) => {
     const {nome, codCourse, sigla, modalidade, disciplinas, coordenador} = req.body
 
     if(!nome || !codCourse || !sigla || !modalidade || !disciplinas) {
-        res.status(400).send({message: 'Todos os campos precisam ser preechidos'})
+        return res.status(400).send({message: 'Todos os campos precisam ser preechidos'})
     }
 
     req.infos = {nome, codCourse, sigla, modalidade, disciplinas, coordenador}
@@ -14,7 +14,7 @@ const ValidForm = (req, res, next) => {
     next()
     }
     catch (err) {
-        res.status(500).send({ message: err.message });
+        return res.status(500).send({ message: err.message });
     }
 }
 
