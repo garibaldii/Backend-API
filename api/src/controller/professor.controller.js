@@ -13,13 +13,13 @@ const createProfessor = async (req, res) => {
     await associateProfessorToCourse(professor._id, professor.coursesId);
     console.log(professor._id, professor.coursesId) //teste para vizualizar o que estava sendo passado
 
-    res.status(201).send({
+    return res.status(201).send({
       message: "O professor foi cadastrado com sucesso!",
       professor: {professor}
     })
   } 
   catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
