@@ -1,6 +1,7 @@
 import { associateProfessorToCourse, desassociateProfessorFromCourse } from '../controller/course.controller.js'
 import professorService from '../services/professor.service.js';
 
+
 // Cadastra professores - post('/')
 const createProfessor = async (req, res) => {
   try {
@@ -74,11 +75,6 @@ const updateProfessor = async (req, res) => {
 
 
 
-
-
-
-
-
 //Deleta um professor da base de dados - delete('/:id')
 const deleteProfessor = async (req, res) => {
   try {
@@ -110,6 +106,38 @@ const findProfessorByCourse = async (req, res) => {
   }
 }
 
+//Busca professores com base no nome, curso, titulacao ou unidade especificada no parâmetro - get('/filter)
+const filterProfessor = async (req, res) => {
+
+  try {
+    const {nome, cursos, titulacoes, unidades} = req.query;
+
+    let filter = {}
+
+    if (nome) {
+      filter.nome = { $regex: nome, $options: 'i' }; // Filtrando por nome, case insensitive
+  }
+  
+  if (cursos) {
+      filter['coursesId'] = { $in: cursos.split(',') };
+  }
+  
+  if (titulacoes) {
+      filter.titulacao = { $in: titulacoes.split(',') };
+  }
+  
+  if (unidades) {
+      filter.unidadeId = { $in: unidades.split(',') };
+  }
+
+  const professores = await professorService.filterProfessorService(filter);
+  
+  res.json(professores);
+  } catch (error) {
+    return res.status(500).json({message: `Erro ao buscar professores ${error.message}`})
+  }
+}
+
 
 export  {
   createProfessor,
@@ -117,5 +145,6 @@ export  {
   findByName,
   updateProfessor,
   deleteProfessor,
-  findProfessorByCourse
+  findProfessorByCourse,
+  filterProfessor
 }

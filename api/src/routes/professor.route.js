@@ -7,7 +7,8 @@ import {
     findProfessorByCourse,
     createProfessor,
     updateProfessor,
-    deleteProfessor
+    deleteProfessor,
+    filterProfessor
 } from '../controller/professor.controller.js'
 
 import {
@@ -21,6 +22,9 @@ import {
 
 // Busca todos os professores
 router.get('/', ValidRegisteredProfessors, findAll);
+
+//Filtra professor
+router.get('/filter', filterProfessor)
 
 // Busca os professores pelo nome
 router.get('/:nome', findByName);
@@ -36,6 +40,8 @@ router.put('/:id', ValidId, ValidUpdate, updateProfessor);
 
 // Deleta um professor
 router.delete('/:id', ValidId, deleteProfessor);
+
+
 
 
 export default router;

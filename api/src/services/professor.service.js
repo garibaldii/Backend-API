@@ -22,6 +22,10 @@ const deleteProfessorService = (professorId) => professorModel.findOneAndDelete(
 
 const findProfessorByCourseService = (coursesId) => professorModel.find({courses: { $in: coursesId }}).populate('coursesId', 'nome');
 
+const filterProfessorService = (filter) => professorModel.find(filter).populate('coursesId')
+
+
+
 
 export default {
     createProfessorService,
@@ -31,4 +35,5 @@ export default {
     updateProfessorService,
     deleteProfessorService,
     findProfessorByCourseService,
+    filterProfessorService
 }
