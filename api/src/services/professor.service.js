@@ -5,8 +5,10 @@ const createProfessorService = (dadosProfessor) => professorModel.create(dadosPr
 const findAllService = () => professorModel.find().populate('coursesId', 'nome');;
 
 const findByNameService = (nome) => {
-    professorModel.find({nome: {$regex: `.*${nome}.*`, $options: 'i'}}).populate('coursesId', 'nome');
+    return professorModel.find({ nome: { $regex: `.*${nome}.*`, $options: 'i' } }).populate('coursesId', 'nome').exec();
 }
+
+  
 
 const findByIdService = (professorId) => professorModel.findOne({_id: professorId});
 

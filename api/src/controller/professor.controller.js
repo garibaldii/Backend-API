@@ -48,7 +48,7 @@ const findByName = async (req, res) => {
     res.send(professors)
   }
   catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
@@ -71,6 +71,13 @@ const updateProfessor = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 }
+
+
+
+
+
+
+
 
 //Deleta um professor da base de dados - delete('/:id')
 const deleteProfessor = async (req, res) => {
