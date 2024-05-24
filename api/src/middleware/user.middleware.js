@@ -3,7 +3,6 @@ import userService from '../services/user.service.js';
 
 const ValidForm = (req, res, next) => {
     const {username, email, password} = req.body;
-
     if(!username || !email || !password) {
         res.status(400).send({messege: 'É necessário preencher todos os campos!'})
     }
