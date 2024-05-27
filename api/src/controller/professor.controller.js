@@ -110,7 +110,7 @@ const findProfessorByCourse = async (req, res) => {
 const filterProfessor = async (req, res) => {
 
   try {
-    const {nome, cursos, titulacoes, unidades} = req.query;
+    const {nome, cursos, titulacoes} = req.query;
 
     let filter = {}
 
@@ -126,9 +126,7 @@ const filterProfessor = async (req, res) => {
       filter.titulacao = { $in: titulacoes.split(',') };
   }
   
-  if (unidades) {
-      filter.unidadeId = { $in: unidades.split(',') };
-  }
+
 
   const professores = await professorService.filterProfessorService(filter);
   
