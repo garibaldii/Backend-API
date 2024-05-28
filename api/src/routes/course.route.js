@@ -6,6 +6,7 @@ import {
     createCourse,
     updateCourse,
     deleteCourse,
+    filterCourse
 } from '../controller/course.controller.js';
 
 import {
@@ -17,6 +18,9 @@ import {
 
 // Busca todos os cursos
 router.get('/', ValidSearchCourse, findAllCourses);
+
+//Filtra curso
+router.get('/filter', filterCourse);
 
 // Cadastra um novo curso
 router.post('/', ValidForm, createCourse);

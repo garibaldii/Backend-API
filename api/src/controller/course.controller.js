@@ -56,6 +56,34 @@ const desassociateProfessorFromCourse = (professorId, coursesId) => {
     courseService.desassociateProfessorFromCourseService(professorId, coursesId);
 }
 
+const filterCourse = async (req, res) => {
+    try {
+        const {nome, modalidade, coordenador} = req.query
+
+        let filter = {}
+    
+        if(nome){
+            filter.nome = { $regex: nome, $options: 'i' }; // Filtrando por nome, case insensitive
+        }
+
+        if(modalidade){
+            filter.modalidade = { $in: modalidade.split(',') }
+        }
+
+        if(coordenador){
+            filter.coordenador = { $regex: coordenador, $options: 'i' } //Filtrando por nome do coordenador, case insensitive
+        }
+
+        const cursos = await courseService.filterCourseService(filter)
+
+        res.json(cursos);
+
+
+    } catch (error) {
+        return res.status(500).json({message: `Erro ao buscar cursos ${error.message}`})
+    }
+}
+
 
 
 export {
@@ -64,5 +92,6 @@ export {
     deleteCourse,
     updateCourse,
     associateProfessorToCourse,
-    desassociateProfessorFromCourse
+    desassociateProfessorFromCourse,
+    filterCourse
 }
