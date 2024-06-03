@@ -14,7 +14,6 @@ const updateCourseService = (courseId, infos) => {
     infos,
     { new: true })
 }
-
 const findCoursesByIdService = (courseId) => courseModel.find({_id: {$in: courseId}});
 
 const associateProfessorToCourseService = (professorId, coursesId) => {
@@ -32,6 +31,14 @@ const desassociateProfessorFromCourseService = (professorId, coursesId) => {
     );
 }
 
+const filterCourseService = async (filter) => {
+    try {
+        return await courseModel.find(filter);
+    } catch (error) {
+        throw new Error('Erro ao filtrar cursos: ' + error.message);
+    }
+};
+
 
 export default {
     createCourseService,
@@ -41,5 +48,6 @@ export default {
     updateCourseService,
     findCoursesByIdService,
     associateProfessorToCourseService,
-    desassociateProfessorFromCourseService
+    desassociateProfessorFromCourseService,
+    filterCourseService
 }

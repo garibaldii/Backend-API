@@ -1,6 +1,7 @@
 import { associateProfessorToCourse, desassociateProfessorFromCourse } from '../controller/course.controller.js'
 import professorService from '../services/professor.service.js';
 
+
 // Cadastra professores - post('/')
 const createProfessor = async (req, res) => {
   try {
@@ -13,13 +14,13 @@ const createProfessor = async (req, res) => {
     await associateProfessorToCourse(professor._id, professor.coursesId);
     console.log(professor._id, professor.coursesId) //teste para vizualizar o que estava sendo passado
 
-    res.status(201).send({
+    return res.status(201).send({
       message: "O professor foi cadastrado com sucesso!",
       professor: {professor}
     })
   } 
   catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
@@ -48,7 +49,7 @@ const findByName = async (req, res) => {
     res.send(professors)
   }
   catch (err) {
-    res.status(500).send({ message: err.message });
+    return res.status(500).send({ message: err.message });
   }
 }
 
@@ -71,6 +72,8 @@ const updateProfessor = async (req, res) => {
     res.status(500).send({ message: err.message });
   }
 }
+
+
 
 //Deleta um professor da base de dados - delete('/:id')
 const deleteProfessor = async (req, res) => {
@@ -103,6 +106,36 @@ const findProfessorByCourse = async (req, res) => {
   }
 }
 
+//Busca professores com base no nome, curso, titulacao ou unidade especificada no parâmetro - get('/filter)
+const filterProfessor = async (req, res) => {
+
+  try {
+    const {nome, cursos, titulacoes} = req.query;
+
+    let filter = {}
+
+    if (nome) {
+      filter.nome = { $regex: nome, $options: 'i' }; // Filtrando por nome, case insensitive
+  }
+  
+  if (cursos) {
+      filter['coursesId'] = { $in: cursos.split(',') };
+  }
+  
+  if (titulacoes) {
+      filter.titulacao = { $in: titulacoes.split(',') };
+  }
+  
+
+
+  const professores = await professorService.filterProfessorService(filter);
+  
+  res.json(professores);
+  } catch (error) {
+    return res.status(500).json({message: `Erro ao buscar professores ${error.message}`})
+  }
+}
+
 
 export  {
   createProfessor,
@@ -110,5 +143,6 @@ export  {
   findByName,
   updateProfessor,
   deleteProfessor,
-  findProfessorByCourse
+  findProfessorByCourse,
+  filterProfessor
 }

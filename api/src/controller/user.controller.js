@@ -4,7 +4,9 @@ import userService from '../services/user.service.js';
 // Cria um novo usuário
 const createUser = async (req, res) => {
   try {
-    await userService.createUserService(req.infos);
+    // console.log('Recebendo dados para criação do usuário:', req.infos);
+    const usuarioCriado = await userService.createUserService(req.infos);
+    console.log(usuarioCriado) 
     res.status(201).send({ message: 'Usuário cadastrado com sucesso'});
   } 
   catch (err) {

@@ -1,6 +1,7 @@
 import express from 'express'
 import connectDatabase from './src/database/db.js';
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 import professorRoute from './src/routes/professor.route.js';
 import userRoute from './src/routes/user.route.js';
@@ -12,7 +13,9 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 const app = express();
 
+
 connectDatabase();
+app.use(cors());
 app.use(express.json())
 app.use('/professors', professorRoute);
 app.use('/user', userRoute);
