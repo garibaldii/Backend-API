@@ -1,5 +1,5 @@
 <div align="center">
-![banner](https://github.com/VitorRuan/Sprints/blob/main/Imagens/capilogo.png)
+  <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/capilogo.png" alt="banner">
 </div>
 <br id="topo">
 <p align="center">
@@ -31,11 +31,11 @@ Cada sprint no desenvolvimento ágil resulta em uma entrega funcional e incremen
  
 ## :dart: Backlogs & User Stories
 <div align="center">
-![req funcionais](https://github.com/VitorRuan/Sprints/blob/main/Imagens/Requisitos%20funcionais.png)  
-![req ñ funcionais](https://github.com/VitorRuan/Sprints/blob/main/Imagens/Requisitos%20%20n%C3%A3o%20funcionais.png)
-![sprint1](https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2001.PNG)
-![sprint2](https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2002.PNG)
-![sprint3](https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2003.PNG)
+  <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Requisitos%20funcionais.png" alt="req funcionais">
+  <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Requisitos%20%20n%C3%A3o%20funcionais.png" alt="req ñ funcionais">
+  <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2001.PNG" alt="sprint1">
+  <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2002.PNG" alt="sprint2">
+  <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2003.PNG" alt="sprint3">
 </div>
 → [Voltar ao topo](#topo)
  
