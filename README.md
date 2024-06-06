@@ -37,7 +37,7 @@ Cada sprint no desenvolvimento ágil resulta em uma entrega funcional e incremen
   <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2002.PNG" alt="sprint2">
   <img src="https://github.com/VitorRuan/Sprints/blob/main/Imagens/Sprint%2003.PNG" alt="sprint3">
 </div>
-→ [Voltar ao topo](#topo)
+
  
 <span id="prototipo">
  
