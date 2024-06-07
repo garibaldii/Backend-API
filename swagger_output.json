@@ -5,11 +5,22 @@
     "title": "REST API",
     "description": ""
   },
+  "servers": [
+    {
+      "url": "https://backend-api-7cos.onrender.com",
+      "description": "Render Server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Local Server"
+    }
+  ],
   "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
+
   "paths": {
     "/courses": {
       "get": {
