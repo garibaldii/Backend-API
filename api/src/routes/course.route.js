@@ -1,6 +1,8 @@
 import { Router } from 'express';
 const router = Router();
 
+import { authMiddleware } from '../middleware/auth.middleware.js'
+
 import {
     findAllCourses,
     createCourse,
@@ -23,7 +25,7 @@ router.get('/', ValidSearchCourse, findAllCourses);
 router.get('/filter', filterCourse);
 
 // Cadastra um novo curso
-router.post('/', ValidForm, createCourse);
+router.post('/', authMiddleware, ValidForm, createCourse);
 
 // Atualiza os dados de algum curso
 router.put('/:id', ValidIdCourse, ValidUpdate, updateCourse);

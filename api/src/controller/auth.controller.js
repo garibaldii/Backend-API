@@ -3,7 +3,6 @@ import { loginService, genereteToken } from '../services/auth.service.js';
 
 const loginController = async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
     try {
         const user = await loginService(email);
         if (!user) {
@@ -17,7 +16,6 @@ const loginController = async (req, res) => {
 
         const token = genereteToken(user.id, user.email);
 
-        console.log('Token gerado:', token);
         return res.status(200).send({ message: 'Logado! ✅', token });
     } catch (err) {
         console.error('Erro no servidor:', err.message);

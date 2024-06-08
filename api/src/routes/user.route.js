@@ -1,9 +1,10 @@
 import { Router } from 'express';
+import { authMiddleware } from '../middleware/auth.middleware.js'
 const router = Router();
 
 import {
     createUser,
-    findAllUsers
+    findAllUsers,
 } from '../controller/user.controller.js';
 
 import {
@@ -15,6 +16,6 @@ import {
 router.post('/', ValidForm, createUser);
 
 //Busca todos os usuários cadastrados
-router.get('/', ValidRegisteredUsers, findAllUsers);
+router.get('/', authMiddleware, ValidRegisteredUsers, findAllUsers);
 
 export default router;
