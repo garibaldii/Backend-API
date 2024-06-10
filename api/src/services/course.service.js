@@ -16,17 +16,17 @@ const updateCourseService = (courseId, infos) => {
 }
 const findCoursesByIdService = (courseId) => courseModel.find({_id: {$in: courseId}});
 
-const associateProfessorToCourseService = (professorId, coursesId) => {
-    courseModel.updateMany(
+const associateProfessorToCourseService = async (professorId, coursesId) => {
+    await courseModel.updateMany(
         { _id: { $in: coursesId } }, 
         { $addToSet: { professors: professorId } },
         { new: true }
     );
 }
 
-const desassociateProfessorFromCourseService = (professorId, coursesId) => {
-    courseModel.updateMany(
-        { _id: { $in: coursesId } },
+const desassociateProfessorAllCoursesService = async (professorId) => {
+    await courseModel.updateMany(
+        { professors: professorId },
         { $pull: { professors: professorId } }
     );
 }
@@ -48,6 +48,6 @@ export default {
     updateCourseService,
     findCoursesByIdService,
     associateProfessorToCourseService,
-    desassociateProfessorFromCourseService,
+    desassociateProfessorAllCoursesService,
     filterCourseService
 }

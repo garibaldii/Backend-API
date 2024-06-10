@@ -14,7 +14,6 @@ import {
 import {
     ValidRegisteredProfessors,
     ValidForm,
-    ValidUpdate,
     ValidId,
     ValidSearchCourse
 } from'../middleware/professor.middlewares.js';
@@ -36,7 +35,7 @@ router.get('/:courseId', ValidId, ValidSearchCourse, findProfessorByCourse);
 router.post('/', ValidForm, createProfessor);
 
 // Atualiza os dados de um professor
-router.put('/:id', ValidId, ValidUpdate, updateProfessor);
+router.put('/:id', ValidId, ValidForm, updateProfessor);
 
 // Deleta um professor
 router.delete('/:id', ValidId, deleteProfessor);

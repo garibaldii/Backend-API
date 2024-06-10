@@ -1,34 +1,57 @@
-import userService from '../services/user.service.js';
-//import { body, validationResult } from 'express-validator';
+import userService from "../services/user.service.js";
+import { check, validationResult } from "express-validator";
 
-const ValidForm = (req, res, next) => {
-    const {username, email, password} = req.body;
-    if(!username || !email || !password) {
-        res.status(400).send({messege: 'É necessário preencher todos os campos!'})
+// Middleware de validação de formulário usando a biblioteca express-validator
+const validateForm = [
+  check("username")
+    .notEmpty().trim().withMessage("O nome de usuário é obrigatório")
+    .isLength({ min: 3 }).withMessage("O nome de usuário deve ter no mínimo 3 caracteres")
+    .isLength({ max: 20 }).withMessage("O nome de usuário deve ter no máximo 20 caracteres")
+    .isAlphanumeric().withMessage("Informe apenas texto ou números"),
+  check("email")
+    .notEmpty().withMessage("O email é obrigatório")
+    .isEmail().withMessage("Informe um email válido"),
+  check("password")
+    .notEmpty().withMessage("A senha é obrigatória")
+    .isLength({ min: 6 }).withMessage("A senha deve ter no mínimo 6 caracteres")
+    .isStrongPassword({
+      minLength: 6,
+      minLowercase: 1,
+      minUppercase: 1,
+      minSymbols: 1,
+      minNumbers: 1,
+    }).withMessage(
+      "A senha não é segura. Informe no mínimo 1 caractere maiúsculo, 1 minúsculo, 1 número e 1 caractere especial"),
+  (req, res, next) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+      return res.status(400).send({ err: err.array() });
     }
 
-    req.infos = {username, email, password};
+    const { username, email, password } = req.body;
+    req.infos = { username, email, password };
 
-    next()
-}
+    next();
+  },
+];
 
-const ValidRegisteredUsers = async (req, res, next) => {
-    try {
-        const registeredUsers = await userService.findAllUsersService();
+// Middleware para validar usuários registrados
+const validateRegisteredUsers = async (req, res, next) => {
+  try {
+    const registeredUsers = await userService.findAllUsersService();
 
-        if(!registeredUsers || registeredUsers.length == 0) {
-            res.status(404).send({messege: 'Não há usuários cadastrados no banco de dados...'})
-        }
-
-        req.registeredUsers = registeredUsers;
-
-        next()
+    if (!registeredUsers || registeredUsers.length == 0) {
+      return res
+        .status(404)
+        .send({ msg: "Não há usuários cadastrados no banco de dados..." });
     }
-    catch (err) {
-        res.status(500).send({ message: err.message });
-    }
-}
-export {
-    ValidForm,
-    ValidRegisteredUsers
-}
+
+    req.registeredUsers = registeredUsers;
+
+    next();
+  } catch (err) {
+    res.status(500).send({ msg: err.message });
+  }
+};
+
+export { validateForm, validateRegisteredUsers };

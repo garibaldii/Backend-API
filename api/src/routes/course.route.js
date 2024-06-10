@@ -15,7 +15,6 @@ import {
     ValidForm,
     ValidSearchCourse,
     ValidIdCourse,
-    ValidUpdate,
 } from '../middleware/course.middleware.js';
 
 // Busca todos os cursos
@@ -28,7 +27,7 @@ router.get('/filter', filterCourse);
 router.post('/', authMiddleware, ValidForm, createCourse);
 
 // Atualiza os dados de algum curso
-router.put('/:id', ValidIdCourse, ValidUpdate, updateCourse);
+router.put('/:id', ValidIdCourse, ValidForm, updateCourse);
 
 // Remove um curso da base de dados
 router.delete('/:id', ValidIdCourse, deleteCourse);

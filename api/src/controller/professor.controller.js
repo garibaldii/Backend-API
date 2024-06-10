@@ -1,4 +1,4 @@
-import { associateProfessorToCourse, desassociateProfessorFromCourse } from '../controller/course.controller.js'
+import { associateProfessorToCourse, desassociateProfessorAllCoursesCourse } from './course.controller.js'
 import professorService from '../services/professor.service.js';
 
 
@@ -8,11 +8,10 @@ const createProfessor = async (req, res) => {
     const professor = await professorService.createProfessorService(req.infos);
 
     if (!professor) {
-      return res.status(400).send({message: "O professor não foi cadastrado"})
+      return res.status(400).send({msg: "O professor não foi cadastrado"})
     }
 
-    await associateProfessorToCourse(professor._id, professor.coursesId);
-    console.log(professor._id, professor.coursesId) //teste para vizualizar o que estava sendo passado
+    associateProfessorToCourse(professor._id, professor.coursesId);
 
     return res.status(201).send({
       message: "O professor foi cadastrado com sucesso!",
@@ -20,7 +19,7 @@ const createProfessor = async (req, res) => {
     })
   } 
   catch (err) {
-    return res.status(500).send({ message: err.message });
+    return res.status(500).send({ msg: err.msg });
   }
 }
 
@@ -30,7 +29,7 @@ const findAll = async (req, res) => {
     res.status(200).send(req.professors)
   }
   catch (err) {
-    res.status(500).send({ message: `FindAllError ${err.message}`});
+    res.status(500).send({ msg: err.msg});
   }
 
 }
@@ -43,13 +42,13 @@ const findByName = async (req, res) => {
     const professors = await professorService.findByNameService(nome);
 
     if (!professors || professors.length == 0) {
-      return res.status(400).send({message: "Não há professores cadastrados com esse nome"})
+      return res.status(400).send({msg: "Não há professores cadastrados com esse nome"})
     }
 
     res.send(professors)
   }
   catch (err) {
-    return res.status(500).send({ message: err.message });
+    return res.status(500).send({ msg: err.message });
   }
 }
 
@@ -64,16 +63,14 @@ const updateProfessor = async (req, res) => {
     associateProfessorToCourse(updatedProfessor._id, updatedProfessor.coursesId);
 
     res.status(201).send({
-      message: "O professor foi atualizado com sucesso!",
+      msg: "O professor foi atualizado com sucesso!",
       professor: {updatedProfessor}
     })
   }
   catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).send({ msg: err.message });
   }
 }
-
-
 
 //Deleta um professor da base de dados - delete('/:id')
 const deleteProfessor = async (req, res) => {
@@ -81,17 +78,15 @@ const deleteProfessor = async (req, res) => {
     const deletedProfessor = await professorService.deleteProfessorService(req.params.id);
     
     if(await professorService.findByIdService(deletedProfessor._id)){
-      res.status(400).send({message: 'Professor não deletado'})
+      res.status(400).send({msg: 'Professor não deletado'})
     }
     
-    await desassociateProfessorFromCourse(deletedProfessor._id, deletedProfessor.coursesId);
+    await desassociateProfessorAllCoursesCourse(deletedProfessor._id, deletedProfessor.coursesId);
     
-    res.status(200).send({
-      message: "Professor removido com sucesso!"
-    })
+    res.status(200).send({msg: "Professor removido com sucesso!" })
   }
   catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).send({ msg: err.message });
   }
 }
 
@@ -102,7 +97,7 @@ const findProfessorByCourse = async (req, res) => {
     res.send(professores)
   }
   catch (err) {
-    res.status(500).send({ message: err.message });
+    res.status(500).send({ msg: err.message });
   }
 }
 
@@ -126,13 +121,11 @@ const filterProfessor = async (req, res) => {
       filter.titulacao = { $in: titulacoes.split(',') };
   }
   
-
-
   const professores = await professorService.filterProfessorService(filter);
   
   res.json(professores);
-  } catch (error) {
-    return res.status(500).json({message: `Erro ao buscar professores ${error.message}`})
+  } catch (err) {
+    return res.status(500).send({msg: err.message})
   }
 }
 
