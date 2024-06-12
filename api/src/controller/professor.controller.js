@@ -56,7 +56,7 @@ const findByName = async (req, res) => {
 const updateProfessor = async (req, res) => {
   try {
     const professor = await professorService.findByIdService(req.id)
-    desassociateProfessorFromCourse(req.id, professor.coursesId);
+    desassociateProfessorAllCoursesCourse(req.id);
 
     const updatedProfessor = await professorService.updateProfessorService(req.infos);
 

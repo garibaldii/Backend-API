@@ -1,39 +1,41 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const CourseSchema = new mongoose.Schema({
   nome: {
-    type:  String,
+    type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   codCourse: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
-  disciplinas : {
+  disciplinas: {
     type: [String],
-    required: true
+    required: true,
   },
   sigla: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   modalidade: {
     type: String,
     required: true,
-    enum: ["Presencial", "EAD", "Híbrido"]
+    enum: ["Presencial", "EAD", "Híbrido"],
   },
-  professors: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Professor",
-  }],
+  professors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Professor",
+    },
+  ],
   coordenador: {
     type: String,
     required: true,
-  }
-}) 
+  },
+});
 
 const courseModel = mongoose.model("Course", CourseSchema);
 
