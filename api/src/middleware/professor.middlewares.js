@@ -24,32 +24,35 @@ const ValidRegisteredProfessors = async (req, res, next) => {
 
 const ValidForm = [
   check("nome")
-    .notEmpty().trim().withMessage("Esse campo é obrigatório")
-    .isAlpha().withMessage("Esse campo só pode ter letras")
-    .isLength({min: 3}).withMessage("Esse campo precisa ter no mínimo 3 letras"),
+    .notEmpty().trim().withMessage("O campo nome é obrigatório")
+    .isAlpha().withMessage("O campo nome só pode ter letras")
+    .isLength({min: 3}).withMessage("O campo nome precisa ter no mínimo 3 caracteres")
+    .isLength({max: 50}).withMessage("O campo nome precisa ter no máximo 50 caracteres"),
 
   check("matriculaId")
-    .notEmpty().trim().withMessage("Esse campo é obrigatório")
-    .isNumeric().withMessage("Esse campo só pode ter números")
-    .isLength({min: 5}).withMessage("Informe no mínimo 5 dígitos"),
+    .notEmpty().trim().withMessage("O campo código de matrícula é obrigatório")
+    .isNumeric().withMessage("O campo código de matrícula só pode ter números")
+    .isLength({min: 5, max:5}).withMessage("Informe apenas 5 dígitos"),
 
   check("unidadeId")
-    .notEmpty().trim().withMessage("O campo unidadeId é obrigatório")
-    .isAlphanumeric().withMessage("O campo unidadeId precisa ter apenas letras ou números"),
+    .notEmpty().trim().withMessage("O campo código da unidade é obrigatório")
+    .isAlphanumeric().withMessage("O campo código da unidade precisa ter apenas letras ou números"),
 
   check("titulacao")
-    .notEmpty().trim().withMessage("O campo titulacao é obrigatório"),
+    .notEmpty().trim().withMessage("O campo titulação é obrigatório")
+    .isAlpha().withMessage("O campo titulação só pode ter letras")
+    .isIn(["Especialista", "Mestre", "Mestra", "Doutor", "Doutora", "Pós-Doutor", "Pós-Doutora"]),
 
   check("referencia")
     .notEmpty().trim().withMessage("O campo referencia é obrigatório")
-    .isLength({min: 8}).withMessage("Esse campo é precisa ter no mínimo 14 caracteres"),
+    .isLength({min: 9, max: 11}).withMessage("Esse campo é precisa ter entre 9 e 11 caracteres"),
 
   check("lattes")
     .notEmpty().trim().withMessage("O campo lattes é obrigatório")
     .isURL().withMessage("O campo lattes precisa ser uma url válida"),
 
   check("coursesId")
-    .notEmpty().trim().isArray({ min: 1 }).withMessage("É necessário fornecer pelo menos um ID de curso"),
+    .notEmpty().trim().isArray({ min: 1 }).withMessage("É necessário fornecer pelo menos um curso"),
 
   check("email")
     .notEmpty().trim().withMessage("O campo email é obrigatório")

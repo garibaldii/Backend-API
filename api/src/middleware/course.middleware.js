@@ -6,16 +6,17 @@ const ValidForm = [
   check('nome')
     .notEmpty().trim().withMessage('O campo nome é obrigatório')
     .isAlpha().withMessage('O campo nome só pode ter letras')
-    .isLength({ min: 3 }).withMessage('O campo nome precisa ter no mínimo 3 letras'),
+    .isLength({min: 3}).withMessage('O campo nome precisa ter no mínimo 3 letras'),
 
   check('codCourse')
-    .notEmpty().trim().withMessage('O campo codCourse é obrigatório')
-    .isNumeric().withMessage('O campo codCourse só pode ter números')
-    .isLength({ min: 5 }).withMessage('Informe no mínimo 5 dígitos'),
+    .notEmpty().trim().withMessage('O campo código do curso é obrigatório')
+    .isNumeric().withMessage('O campo código do curso só pode ter números')
+    .isLength({ min: 3, max:5 }).withMessage('Informe de 3 a 5 dígitos'),
 
   check('sigla')
     .notEmpty().trim().withMessage('O campo sigla é obrigatório')
-    .isAlpha().withMessage('O campo sigla precisa ter apenas letras'),
+    .isAlpha().withMessage('O campo sigla precisa ter apenas letras')
+    .isLength({min: 2, max: 4}).withMessage("Informe de 2 a 4 letras"),
 
   check('modalidade')
     .notEmpty().withMessage('O campo modalidade é obrigatório')

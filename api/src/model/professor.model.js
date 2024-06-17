@@ -17,6 +17,14 @@ const ProfessorSchema = new mongoose.Schema({
   titulacao: {
     type: String,
     required: true,
+    enum: [
+      "Especialista",
+      "Mestre",
+      "Mestra",
+      "Doutor",
+      "Doutora",
+      "Pós-Doutor",
+      "Pós-Doutora"]
   },
   referencia: {
     type: String,
