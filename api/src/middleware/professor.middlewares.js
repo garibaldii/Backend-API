@@ -24,46 +24,49 @@ const ValidRegisteredProfessors = async (req, res, next) => {
 
 const ValidForm = [
   check("nome")
-    .notEmpty().trim().withMessage("O campo nome é obrigatório")
-    .isAlpha().withMessage("O campo nome só pode ter letras")
-    .isLength({min: 3}).withMessage("O campo nome precisa ter no mínimo 3 caracteres")
-    .isLength({max: 50}).withMessage("O campo nome precisa ter no máximo 50 caracteres"),
+    .notEmpty().trim().withMessage("O campo nome é obrigatório.")
+    .matches(/^[A-Za-z\s]+$/).withMessage("O campo nome só pode ter letras e espaços.")
+    .isLength({min: 3}).withMessage("O campo nome precisa ter no mínimo 3 caracteres.")
+    .isLength({max: 50}).withMessage("O campo nome precisa ter no máximo 50 caracteres."),
 
   check("matriculaId")
-    .notEmpty().trim().withMessage("O campo código de matrícula é obrigatório")
-    .isNumeric().withMessage("O campo código de matrícula só pode ter números")
-    .isLength({min: 5, max:5}).withMessage("Informe um número de matrícula de apenas 5 dígitos"),
+    .notEmpty().trim().withMessage("O campo código de matrícula é obrigatório.")
+    .isNumeric().withMessage("O campo código de matrícula só pode ter números.")
+    .isLength({min: 5, max:5}).withMessage("Informe um número de matrícula de apenas 5 dígitos."),
 
   check("unidadeId")
-    .notEmpty().trim().withMessage("O campo código da unidade é obrigatório")
-    .isAlphanumeric().withMessage("O campo código da unidade precisa ter apenas letras ou números"),
+    .notEmpty().trim().withMessage("O campo código da unidade é obrigatório.")
+    .matches(/^\d+\s-\s[A-Za-z\s]+$/)
+    .withMessage("O campo código de unidade precisa estar no formato correto."),,
 
   check("titulacao")
-    .notEmpty().trim().withMessage("O campo titulação é obrigatório")
-    .isAlpha().withMessage("O campo titulação só pode ter letras")
-    .isIn(["Especialista", "Mestre", "Mestra", "Doutor", "Doutora", "Pós-Doutor", "Pós-Doutora"]),
+    .notEmpty().trim().withMessage("O campo titulação é obrigatório.")
+    .isIn(["Especialista", "Mestre", "Mestra", "Doutor", "Doutora", "Pós-Doutor", "Pós-Doutora"])
+    .withMessage("Informe uma titulação existente."),
 
   check("referencia")
-    .notEmpty().trim().withMessage("O campo referencia é obrigatório")
-    .isLength({min: 9, max: 11}).withMessage("Esse campo é precisa ter entre 9 e 11 caracteres"),
+    .notEmpty().trim().withMessage("O campo referencia é obrigatório.")
+    .isLength({min: 9, max: 11}).withMessage("Esse campo é precisa ter entre 9 e 11 caracteres.")
+    .matches(/^PES\s(I|II|III)\s-\s[A-H]$/)
+    .withMessage("O campo referencia precisa estar no formato correto."),
 
   check("lattes")
-    .notEmpty().trim().withMessage("O campo lattes é obrigatório")
-    .isURL().withMessage("O campo lattes precisa ser uma url válida"),
+    .notEmpty().trim().withMessage("O campo lattes é obrigatório.")
+    .isURL().withMessage("O campo lattes precisa ser uma url válida."),
 
   check("coursesId")
-    .notEmpty().trim().isArray({ min: 1 }).withMessage("É necessário fornecer pelo menos um curso"),
+    .notEmpty().trim().isArray({ min: 1 }).withMessage("É necessário fornecer pelo menos um curso."),
 
   check("email")
-    .notEmpty().trim().withMessage("O campo email é obrigatório")
-    .isEmail().withMessage("O campo precisa ser um e-mail válido"),
+    .notEmpty().trim().withMessage("O campo email é obrigatório.")
+    .isEmail().withMessage("O campo precisa ser um e-mail válido."),
 
   check("statusAtividade")
-    .optional().trim().default("Ativo").isIn(["Ativo", "Inativo"]).withMessage('O campo só recebe "Ativo" ou "Inativo"'),
+    .optional().trim().default("Ativo").isIn(["Ativo", "Inativo"]).withMessage('O campo só recebe "Ativo" ou "Inativo."'),
 
   check("notes")
-    .optional().trim().default("Não há observações")
-    .isLength({max: 40}).withMessage("A observação não pode passar de 40 caracteres"),
+    .optional().trim().default("Não há observações.")
+    .isLength({max: 40}).withMessage("A observação não pode passar de 40 caracteres."),
 
   (req, res, next) => {
     const err = validationResult(req);

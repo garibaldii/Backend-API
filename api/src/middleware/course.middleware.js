@@ -4,33 +4,33 @@ import mongoose from 'mongoose';
 
 const ValidForm = [
   check('nome')
-    .notEmpty().trim().withMessage('O campo nome é obrigatório')
-    .isAlpha().withMessage('O campo nome só pode ter letras')
-    .isLength({min: 3}).withMessage('O campo nome precisa ter no mínimo 3 letras'),
+    .notEmpty().trim().withMessage('O campo nome é obrigatório.')
+    .matches(/^[A-Za-z\s]+$/).withMessage("O campo nome só pode ter letras e espaços.")
+    .isLength({min: 3}).withMessage('O campo nome precisa ter no mínimo 3 letras.'),
 
   check('codCourse')
-    .notEmpty().trim().withMessage('O campo código do curso é obrigatório')
-    .isNumeric().withMessage('O campo código do curso só pode ter números')
-    .isLength({ min: 3, max:5 }).withMessage('Informe um código de curso de 3 a 5 dígitos'),
+    .notEmpty().trim().withMessage('O campo código do curso é obrigatório.')
+    .isNumeric().withMessage('O campo código do curso só pode ter números.')
+    .isLength({ min: 3, max:5 }).withMessage('Informe um código de curso de 3 a 5 dígitos.'),
 
   check('sigla')
-    .notEmpty().trim().withMessage('O campo sigla é obrigatório')
-    .isAlpha().withMessage('O campo sigla precisa ter apenas letras')
-    .isLength({min: 2, max: 4}).withMessage("Informe uma sigla de 2 a 4 letras"),
+    .notEmpty().trim().withMessage('O campo sigla é obrigatório.')
+    .isAlpha().withMessage('O campo sigla precisa ter apenas letras.')
+    .isLength({min: 2, max: 4}).withMessage("Informe uma sigla de 2 a 4 letras."),
 
   check('modalidade')
-    .notEmpty().withMessage('O campo modalidade é obrigatório')
-    .isIn(["Presencial", "EAD", "Híbrido"]).withMessage('O campo modalidade precisa ser EAD, Presencial ou Híbrido'),
+    .notEmpty().withMessage('O campo modalidade é obrigatório.')
+    .isIn(["Presencial", "EAD", "Híbrido"]).withMessage('O campo modalidade precisa ser EAD, Presencial ou Híbrido.'),
 
   check('disciplinas')
-    .notEmpty().withMessage('O campo disciplinas é obrigatório')
-    .isArray({ min: 1 }).withMessage('É necessário cadastrar pelo menos uma disciplina'),
+    .notEmpty().withMessage('O campo disciplinas é obrigatório.')
+    .isArray({ min: 1 }).withMessage('É necessário cadastrar pelo menos uma disciplina.'),
 
   check('coordenador')
     .optional()
     .custom((value) => {
         if (!mongoose.Types.ObjectId.isValid(value)) {
-          throw new Error('O coordenador precisa ser um ID válido');
+          throw new Error('Coordenador inválido.');
         }
         return true;
       }),
