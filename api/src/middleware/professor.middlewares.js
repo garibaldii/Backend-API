@@ -36,19 +36,16 @@ const ValidForm = [
 
   check("unidadeId")
     .notEmpty().trim().withMessage("O campo código da unidade é obrigatório.")
-    .matches(/^\d+\s-\s[A-Za-z\s]+$/)
-    .withMessage("O campo código de unidade precisa estar no formato correto."),,
+    .matches(/^\d+\s-\s[A-Za-z\s]+$/).withMessage("O campo código de unidade precisa estar no formato correto."),
 
   check("titulacao")
     .notEmpty().trim().withMessage("O campo titulação é obrigatório.")
-    .isIn(["Especialista", "Mestre", "Mestra", "Doutor", "Doutora", "Pós-Doutor", "Pós-Doutora"])
-    .withMessage("Informe uma titulação existente."),
+    .isIn(["Especialista", "Mestre", "Mestra", "Doutor", "Doutora", "Pós-Doutor", "Pós-Doutora"]).withMessage("Informe uma titulação existente."),
 
   check("referencia")
     .notEmpty().trim().withMessage("O campo referencia é obrigatório.")
     .isLength({min: 9, max: 11}).withMessage("Esse campo é precisa ter entre 9 e 11 caracteres.")
-    .matches(/^PES\s(I|II|III)\s-\s[A-H]$/)
-    .withMessage("O campo referencia precisa estar no formato correto."),
+    .matches(/^PES\s(I|II|III)\s-\s[A-H]$/).withMessage("O campo referencia precisa estar no formato correto."),
 
   check("lattes")
     .notEmpty().trim().withMessage("O campo lattes é obrigatório.")

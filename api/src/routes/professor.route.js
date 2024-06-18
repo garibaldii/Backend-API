@@ -40,7 +40,4 @@ router.put('/:id', ValidId, ValidForm, updateProfessor);
 // Deleta um professor
 router.delete('/:id', ValidId, deleteProfessor);
 
-
-
-
 export default router;
