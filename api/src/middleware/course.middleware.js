@@ -11,12 +11,12 @@ const ValidForm = [
   check('codCourse')
     .notEmpty().trim().withMessage('O campo código do curso é obrigatório')
     .isNumeric().withMessage('O campo código do curso só pode ter números')
-    .isLength({ min: 3, max:5 }).withMessage('Informe de 3 a 5 dígitos'),
+    .isLength({ min: 3, max:5 }).withMessage('Informe um código de curso de 3 a 5 dígitos'),
 
   check('sigla')
     .notEmpty().trim().withMessage('O campo sigla é obrigatório')
     .isAlpha().withMessage('O campo sigla precisa ter apenas letras')
-    .isLength({min: 2, max: 4}).withMessage("Informe de 2 a 4 letras"),
+    .isLength({min: 2, max: 4}).withMessage("Informe uma sigla de 2 a 4 letras"),
 
   check('modalidade')
     .notEmpty().withMessage('O campo modalidade é obrigatório')
@@ -57,7 +57,7 @@ const ValidSearchCourse = async (req, res, next) => {
     req.courses = courses;
     next();
   } catch (err) {
-    res.status(500).send({ msg: err.message });
+    res.status(500).send({err: "Erro ao buscar professor"});
   }
 };
 
@@ -66,13 +66,13 @@ const ValidIdCourse = [
     const courseId = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
-      return res.status(400).send({ msg: `O ID '${courseId}' não é válido` });
+      return res.status(400).send({ err: `O ID '${courseId}' não é válido` });
     }
 
     const course = await courseService.findCourseByIdService(courseId);
 
     if (!course) {
-      return res.status(404).send({ msg: "Curso não encontrado" });
+      return res.status(404).send({ err: "Curso não encontrado" });
     }
 
     req.course = course;

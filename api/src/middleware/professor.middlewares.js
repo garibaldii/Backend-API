@@ -32,7 +32,7 @@ const ValidForm = [
   check("matriculaId")
     .notEmpty().trim().withMessage("O campo código de matrícula é obrigatório")
     .isNumeric().withMessage("O campo código de matrícula só pode ter números")
-    .isLength({min: 5, max:5}).withMessage("Informe apenas 5 dígitos"),
+    .isLength({min: 5, max:5}).withMessage("Informe um número de matrícula de apenas 5 dígitos"),
 
   check("unidadeId")
     .notEmpty().trim().withMessage("O campo código da unidade é obrigatório")
@@ -74,7 +74,7 @@ const ValidForm = [
     //Validação da existência do(s) curso(s) no DB
     const { coursesId } = req.body;
     if (!checkCourseExistence(coursesId)) {
-      return res.status(400).send({msg:"Todos cursos precisam existir na base de dados, algum coursesId inválido",});
+      return res.status(400).send({err:"Todos cursos precisam existir na base de dados, algum coursesId inválido",});
     }
 
     req.infos = req.body;
@@ -90,12 +90,12 @@ const ValidId = [
 
     for (let id of ids) {
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ msg: `O ID '${id}' não é válido` });
+        return res.status(400).send({ err: `O ID '${id}' não é válido` });
       }
     }
 
     if (!checkCourseExistence(ids)) {
-      res.status(400).send({msg:"Todos cursos precisam existir na base de dados, algum coursesId inválido"});
+      res.status(400).send({err:"Todos cursos precisam existir na base de dados, algum coursesId inválido"});
     }
 
     req.coursesId = ids; //Caso seja um curso
@@ -116,7 +116,7 @@ const ValidSearchCourse = [
 
     //Validação da existência do(s) curso(s) no DB
     if (!checkCourseExistence(coursesId)) {
-      res.status(400).send({msg: "Todos cursos precisam existir na base de dados, algum coursesId inválido",});
+      res.status(400).send({err: "Todos cursos precisam existir na base de dados, algum coursesId inválido",});
     }
 
     req.coursesId = coursesId;

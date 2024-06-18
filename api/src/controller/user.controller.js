@@ -7,7 +7,7 @@ const createUser = async (req, res) => {
     res.status(201).send({ msg: 'Usuário cadastrado com sucesso'});
   } 
   catch (err) {
-    res.status(500).send({ msg: 'Erro ao cadastrar usuário', err: err.message });
+    res.status(500).send({ err: 'Erro ao cadastrar usuário' });
   }
 };
 
@@ -17,7 +17,7 @@ const findAllUsers = async (req, res) => {
     res.status(200).send(req.registeredUsers);
   }
   catch (err) {
-    res.status(500).send({ msg: err.message });
+    res.status(500).send({ err: "Erro ao buscar todos os usuários" });
   }
 }
 

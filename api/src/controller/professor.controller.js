@@ -8,7 +8,7 @@ const createProfessor = async (req, res) => {
     const professor = await professorService.createProfessorService(req.infos);
 
     if (!professor) {
-      return res.status(400).send({msg: "O professor não foi cadastrado"})
+      return res.status(400).send({err: "O professor não foi cadastrado"})
     }
 
     associateProfessorToCourse(professor._id, professor.coursesId);
@@ -29,7 +29,7 @@ const findAll = async (req, res) => {
     res.status(200).send(req.professors)
   }
   catch (err) {
-    res.status(500).send({ msg: err.msg});
+    res.status(500).send({ err: "Erro ao buscar todos os professores"});
   }
 
 }
@@ -42,13 +42,13 @@ const findByName = async (req, res) => {
     const professors = await professorService.findByNameService(nome);
 
     if (!professors || professors.length == 0) {
-      return res.status(400).send({msg: "Não há professores cadastrados com esse nome"})
+      return res.status(400).send({err: "Não há professores cadastrados com esse nome"})
     }
 
     res.send(professors)
   }
   catch (err) {
-    return res.status(500).send({ msg: err.message });
+    return res.status(500).send({ err: "Erro ao buscar professores por nome" });
   }
 }
 
@@ -68,7 +68,7 @@ const updateProfessor = async (req, res) => {
     })
   }
   catch (err) {
-    res.status(500).send({ msg: err.message });
+    res.status(500).send({ err: "Erro ao tentar atualizar um professor" });
   }
 }
 
@@ -78,7 +78,7 @@ const deleteProfessor = async (req, res) => {
     const deletedProfessor = await professorService.deleteProfessorService(req.params.id);
     
     if(await professorService.findByIdService(deletedProfessor._id)){
-      res.status(400).send({msg: 'Professor não deletado'})
+      res.status(400).send({err: 'Professor não deletado'})
     }
     
     await desassociateProfessorAllCoursesCourse(deletedProfessor._id, deletedProfessor.coursesId);
@@ -86,7 +86,7 @@ const deleteProfessor = async (req, res) => {
     res.status(200).send({msg: "Professor removido com sucesso!" })
   }
   catch (err) {
-    res.status(500).send({ msg: err.message });
+    res.status(500).send({ err: "Erro ao deletar um professor" });
   }
 }
 
@@ -97,7 +97,7 @@ const findProfessorByCourse = async (req, res) => {
     res.send(professores)
   }
   catch (err) {
-    res.status(500).send({ msg: err.message });
+    res.status(500).send({ err: "Erro ao buscar professores pelo curso" });
   }
 }
 
@@ -125,7 +125,7 @@ const filterProfessor = async (req, res) => {
   
   res.json(professores);
   } catch (err) {
-    return res.status(500).send({msg: err.message})
+    return res.status(500).send({ err: "Erro ao filtrar professores na busca" })
   }
 }
 

@@ -8,9 +8,11 @@ const validateForm = [
     .isLength({ min: 3 }).withMessage("O nome de usuário deve ter no mínimo 3 caracteres")
     .isLength({ max: 20 }).withMessage("O nome de usuário deve ter no máximo 20 caracteres")
     .isAlphanumeric().withMessage("Informe apenas texto ou números"),
+
   check("email")
     .notEmpty().withMessage("O email é obrigatório")
     .isEmail().withMessage("Informe um email válido"),
+
   check("password")
     .notEmpty().withMessage("A senha é obrigatória")
     .isLength({ min: 6 }).withMessage("A senha deve ter no mínimo 6 caracteres")
@@ -22,7 +24,8 @@ const validateForm = [
       minNumbers: 1,
     }).withMessage(
       "A senha não é segura. Informe no mínimo 1 caractere maiúsculo, 1 minúsculo, 1 número e 1 caractere especial"),
-  (req, res, next) => {
+  
+      (req, res, next) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
       return res.status(400).send({ err: err.array() });
@@ -43,14 +46,14 @@ const validateRegisteredUsers = async (req, res, next) => {
     if (!registeredUsers || registeredUsers.length == 0) {
       return res
         .status(404)
-        .send({ msg: "Não há usuários cadastrados no banco de dados..." });
+        .send({ err: "Não há usuários cadastrados no banco de dados..." });
     }
 
     req.registeredUsers = registeredUsers;
 
     next();
   } catch (err) {
-    res.status(500).send({ msg: err.message });
+    res.status(500).send({ err: "Erro ao verificar usuários cadastrados" });
   }
 };
 

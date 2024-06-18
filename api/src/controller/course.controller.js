@@ -5,7 +5,7 @@ const createCourse = async (req, res) => {
         const course = await courseService.createCourseService(req.infos);
 
         if (!course) {
-        return res.status(400).send({msg: "O professor não foi cadastrado"})
+        return res.status(400).send({err: "O curso não foi cadastrado"})
         }
 
         res.status(201).send({
@@ -14,7 +14,7 @@ const createCourse = async (req, res) => {
         })
     }
     catch (err) {
-        res.status(500).send({ msg: err.message });
+        res.status(500).send({ err: "Erro ao criar curso" });
     }
 } 
 
@@ -23,7 +23,7 @@ const findAllCourses = async (req, res) => {
         res.send(req.courses)
     }
     catch (err) {
-        res.status(500).send({ msg: err.message });
+        res.status(500).send({ err: "Erro ao buscar todos os cursos" });
     }
 }
 
@@ -33,7 +33,7 @@ const deleteCourse = async (req, res) => {
         res.status(200).send({msg: "O curso foi deletado com sucesso!"})
     }
     catch (err) {
-        res.status(500).send({ msg: err.message });
+        res.status(500).send({ err: "Erro ao deletar um curso" });
     }
 }
 
@@ -43,7 +43,7 @@ const updateCourse = async (req, res) => {
         res.status(200).send({msg: "Curso atualizado com sucesso!", course: updatedCourse})
     }
     catch (err) {
-        res.status(500).send({ msg: err.message });
+        res.status(500).send({ err: "Erro ao atualizar um curso" });
     }
 }
 
@@ -80,7 +80,7 @@ const filterCourse = async (req, res) => {
 
 
     } catch (err) {
-        return res.status(500).send({msg:err.message})
+        return res.status(500).send({err: "Erro ao filtrar na busca dos cursos"})
     }
 }
 
