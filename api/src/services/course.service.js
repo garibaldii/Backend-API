@@ -2,7 +2,7 @@ import courseModel from '../model/course.model.js';
 
 const createCourseService = (infos) => courseModel.create(infos);
 
-const findAllCoursesService = () => courseModel.find().populate('professors', 'nome');
+const findAllCoursesService = () => courseModel.find().populate('professors', 'nome').populate('coordenador', 'nome');
 
 const findCourseByIdService = (courseId) => courseModel.findOne({_id: courseId});
 
