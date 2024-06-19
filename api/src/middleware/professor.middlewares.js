@@ -32,7 +32,7 @@ const ValidForm = [
   check("matriculaId")
     .notEmpty().trim().withMessage("O campo código de matrícula é obrigatório.")
     .isNumeric().withMessage("O campo código de matrícula só pode ter números.")
-    .isLength({min: 5, max:5}).withMessage("Informe um número de matrícula de apenas 5 dígitos."),
+    .isLength({min: 5, max:5}).withMessage("Informe um número de matrícula com 5 dígitos."),
 
   check("unidadeId")
     .notEmpty().trim().withMessage("O campo código da unidade é obrigatório.")
@@ -77,6 +77,7 @@ const ValidForm = [
       return res.status(400).send({err:"Todos cursos precisam existir na base de dados, algum coursesId inválido",});
     }
 
+    //Validar
     req.infos = req.body;
 
     next();

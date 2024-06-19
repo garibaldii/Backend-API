@@ -32,8 +32,8 @@ const CourseSchema = new mongoose.Schema({
     },
   ],
   coordenador: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Professor",
   },
 });
 
