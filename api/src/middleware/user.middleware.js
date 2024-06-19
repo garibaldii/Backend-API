@@ -7,7 +7,7 @@ const validateForm = [
     .notEmpty().trim().withMessage("O nome de usuário é obrigatório.")
     .isLength({ min: 3 }).withMessage("O nome de usuário deve ter no mínimo 3 caracteres.")
     .isLength({ max: 50 }).withMessage("O nome de usuário deve ter no máximo 50 caracteres.")
-    .matches(/^[A-Za-z\s]+$/).withMessage("O campo nome só pode ter letras e espaços."),
+    .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s~]+$/).withMessage("O campo nome só pode ter letras, espaços e caracteres acentuados."),
 
   check("email")
     .notEmpty().withMessage("O email é obrigatório.")

@@ -34,8 +34,8 @@ const desassociateProfessorAllCoursesService = async (professorId) => {
 const filterCourseService = async (filter) => {
     try {
         return await courseModel.find(filter);
-    } catch (error) {
-        throw new Error('Erro ao filtrar cursos: ' + error.message);
+    } catch (err) {
+        throw new Error('Erro ao filtrar cursos: ' + err.message);
     }
 };
 

@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 const ValidForm = [
   check('nome')
     .notEmpty().trim().withMessage('O campo nome é obrigatório.')
-    .matches(/^[A-Za-z\s]+$/).withMessage("O campo nome só pode ter letras e espaços.")
+    .matches(/^[A-Za-zÀ-ÖØ-öø-ÿ\s~]+$/).withMessage("O campo nome só pode ter letras, espaços e caracteres acentuados.")
     .isLength({min: 3}).withMessage('O campo nome precisa ter no mínimo 3 letras.'),
 
   check('codCourse')

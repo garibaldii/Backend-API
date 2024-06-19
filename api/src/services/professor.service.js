@@ -28,6 +28,15 @@ const findProfessorByCourseService = (coursesId) => professorModel.find({courses
 
 const filterProfessorService = (filter) => professorModel.find(filter).populate('coursesId')
 
+const checkMatriculaIdExistenceService = async (matriculaId) => {
+    try {
+        const professor = await professorModel.findOne({ matriculaId: matriculaId });
+        return professor;
+    } catch (err) {
+        throw new Error('Erro ao verificar existência da matrícula: ' + err.message);
+    }
+};
+
 export default {
     createProfessorService,
     findAllService,
@@ -36,5 +45,6 @@ export default {
     updateProfessorService,
     deleteProfessorService,
     findProfessorByCourseService,
-    filterProfessorService
+    filterProfessorService,
+    checkMatriculaIdExistenceService
 }
