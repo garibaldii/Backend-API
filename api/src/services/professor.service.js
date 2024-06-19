@@ -12,9 +12,9 @@ const findByNameService = (nome) => {
 
 const findByIdService = (professorId) => professorModel.findOne({_id: professorId});
 
-const updateProfessorService = (infos) => {
+const updateProfessorService = (id, infos) => {
     return professorModel.findOneAndUpdate(
-    { matriculaId: infos.matriculaId }, infos,
+    { _id: id }, infos,
     { new: true })
 }
 

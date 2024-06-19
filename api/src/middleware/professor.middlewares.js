@@ -44,7 +44,7 @@ const ValidForm = [
 
   check("referencia")
     .notEmpty().trim().withMessage("O campo referencia é obrigatório.")
-    .isLength({min: 9, max: 11}).withMessage("Esse campo é precisa ter entre 9 e 11 caracteres.")
+    .isLength({min: 9, max: 11}).withMessage("O campo  referência precisa ter entre 9 e 11 caracteres.")
     .matches(/^PES\s(I|II|III)\s-\s[A-H]$/).withMessage("O campo referencia precisa estar no formato correto."),
 
   check("lattes")

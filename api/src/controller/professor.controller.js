@@ -55,10 +55,9 @@ const findByName = async (req, res) => {
 //Atualiza dados de um professor pelo numero de matricula - put('/:id')
 const updateProfessor = async (req, res) => {
   try {
-    const professor = await professorService.findByIdService(req.id)
     desassociateProfessorAllCoursesCourse(req.id);
 
-    const updatedProfessor = await professorService.updateProfessorService(req.infos);
+    const updatedProfessor = await professorService.updateProfessorService(req.id, req.infos);
 
     associateProfessorToCourse(updatedProfessor._id, updatedProfessor.coursesId);
 

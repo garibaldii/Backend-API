@@ -4,18 +4,18 @@ import { check, validationResult } from "express-validator";
 // Middleware de validação de formulário usando a biblioteca express-validator
 const validateForm = [
   check("username")
-    .notEmpty().trim().withMessage("O nome de usuário é obrigatório")
-    .isLength({ min: 3 }).withMessage("O nome de usuário deve ter no mínimo 3 caracteres")
-    .isLength({ max: 20 }).withMessage("O nome de usuário deve ter no máximo 20 caracteres")
-    .isAlphanumeric().withMessage("Informe apenas texto ou números"),
+    .notEmpty().trim().withMessage("O nome de usuário é obrigatório.")
+    .isLength({ min: 3 }).withMessage("O nome de usuário deve ter no mínimo 3 caracteres.")
+    .isLength({ max: 20 }).withMessage("O nome de usuário deve ter no máximo 20 caracteres.")
+    .matches(/^[A-Za-z\s]+$/).withMessage("O campo nome só pode ter letras e espaços."),
 
   check("email")
-    .notEmpty().withMessage("O email é obrigatório")
-    .isEmail().withMessage("Informe um email válido"),
+    .notEmpty().withMessage("O email é obrigatório.")
+    .isEmail().withMessage("Informe um email válido."),
 
   check("password")
-    .notEmpty().withMessage("A senha é obrigatória")
-    .isLength({ min: 6 }).withMessage("A senha deve ter no mínimo 6 caracteres")
+    .notEmpty().withMessage("A senha é obrigatória.")
+    .isLength({ min: 6 }).withMessage("A senha deve ter no mínimo 6 caracteres.")
     .isStrongPassword({
       minLength: 6,
       minLowercase: 1,
@@ -23,7 +23,7 @@ const validateForm = [
       minSymbols: 1,
       minNumbers: 1,
     }).withMessage(
-      "A senha não é segura. Informe no mínimo 1 caractere maiúsculo, 1 minúsculo, 1 número e 1 caractere especial"),
+      "A senha não é segura. Informe no mínimo 1 caractere maiúsculo, 1 minúsculo, 1 número e 1 caractere especial."),
   
       (req, res, next) => {
     const err = validationResult(req);
