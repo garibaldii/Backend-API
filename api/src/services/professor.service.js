@@ -13,9 +13,13 @@ const findByNameService = (nome) => {
 const findByIdService = (professorId) => professorModel.findOne({_id: professorId});
 
 const updateProfessorService = (id, infos) => {
-    return professorModel.findOneAndUpdate(
-    { _id: id }, infos,
-    { new: true })
+    try {
+        return professorModel.findOneAndUpdate(
+        { _id: id }, infos,
+        { new: true })
+    } catch (err) {
+        throw new Error('Erro ao tentar atualizar um professor - Service: ' + err.message);
+    }
 }
 
 const deleteProfessorService = (professorId) => professorModel.findOneAndDelete({ _id: professorId });
@@ -23,9 +27,6 @@ const deleteProfessorService = (professorId) => professorModel.findOneAndDelete(
 const findProfessorByCourseService = (coursesId) => professorModel.find({courses: { $in: coursesId }}).populate('coursesId', 'nome sigla');
 
 const filterProfessorService = (filter) => professorModel.find(filter).populate('coursesId')
-
-
-
 
 export default {
     createProfessorService,

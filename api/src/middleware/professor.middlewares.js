@@ -90,7 +90,7 @@ const ValidId = [
 
     for (let id of ids) {
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ err: `O ID '${id}' não é válido` });
+        return res.status(400).send({ err: `O ID ${id} não é válido` });
       }
     }
 
