@@ -43,8 +43,8 @@ const ValidForm = [
     .isIn(["Especialista", "Mestre", "Mestra", "Doutor", "Doutora", "Pós-Doutor", "Pós-Doutora"]).withMessage("Informe uma titulação existente."),
 
   check("referencia")
-    .notEmpty().trim().withMessage("O campo referencia é obrigatório.")
-    .isLength({min: 9, max: 11}).withMessage("Esse campo é precisa ter entre 9 e 11 caracteres.")
+    .notEmpty().trim().withMessage("O campo referência é obrigatório.")
+    .isLength({min: 9, max: 11}).withMessage("No campo Referência é preciso ter entre 9 e 11 caracteres.")
     .matches(/^PES\s(I|II|III)\s-\s[A-H]$/).withMessage("O campo referencia precisa estar no formato correto."),
 
   check("lattes")

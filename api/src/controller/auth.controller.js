@@ -16,7 +16,7 @@ const loginController = async (req, res) => {
 
         const token = genereteToken(user.id, user.email);
 
-        return res.status(200).send({ token });
+        return res.status(200).send({ token }); 
     } catch (err) {
         return res.status(500).send({ err: "Erro no login" });
     }
